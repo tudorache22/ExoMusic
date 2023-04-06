@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+<div class="card crud-demo">
+    <h:form id="formGestioneUtenti">
+        <p:growl id="messaggi" showDetail="true" />
+
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="New" icon="pi pi-plus" actionListener="#{gestioneUtentiBean.openNew()}"
+                    update="manage-utenti-content" oncomplete="PF('manageUtentiDialog').show()"
+                    styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target="manage-utenti-content" />
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
+
+        <p:dataTable id="dt-utenti" widgetVar="dtUtenti" var="utente" value="#{gestioneUtentiBean.listaUtenti}"
+            reflow="true" styleClass="products-table" selection="#{gestioneUtentiBean.utenteSelezionato}"
+            rowKey="#{utente.idUtente}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+            <f:facet name="header">
+                <div class="utenti-table-header">
+                    <span style="font-weight: bold">Lista Utenti</span>
+                    <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtUtenti').filter()" placeholder="Search" />
+                    </span>
+                </div>
+            </f:facet>
+         
+
+
+            <p:column headerText="IdUtente" sortBy="#{utente.idUtente}" filterBy="#{utente.idUtente}">
+                <h:outputText value="#{utente.idUtente}" />
+            </p:column>
+            
+            <p:column headerText="Email" sortBy="#{utente.email}" filterBy="#{utente.email}">
+                <h:outputText value="#{utente.email}" />
+            </p:column>
+            
+            <p:column headerText="Password" sortBy="#{utente.password}" filterBy="#{utente.password}">
+                <h:outputText value="#{utente.password}" />
+            </p:column>
+            
+            <p:column headerText="Nome" sortBy="#{utente.nome}" filterBy="#{utente.nome}">
+                <h:outputText value="#{utente.nome}" />
+            </p:column>
+            
+            <p:column headerText="Cognome" sortBy="#{utente.cognome}" filterBy="#{utente.cognome}">
+                <h:outputText value="#{utente.cognome}" />
+            </p:column>
+            
+            <p:column headerText="Ruolo" sortBy="#{utente.ruolo.ruolo}" filterBy="#{utente.ruolo.ruolo}">
+                <h:outputText value="#{utente.ruolo.ruolo}" />
+            </p:column>
+<!--             CAMBIARE -->
+            <p:column exportable="false">
+                <p:commandButton icon="pi pi-pencil" update=":formGestioneUtenti:manage-utenti-content"
+                    oncomplete="PF('manageUtentiDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{utenti}" target="#{gestioneUtentiBean.utenteSelezionato}" />
+                    <p:resetInput target="manage-utenti-content" />
+                </p:commandButton>
+<!--                CAMBIARE  -->
+                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                 process="@this"
+                                 oncomplete="PF('deleteUtentiDialog').show()">
+                    <f:setPropertyActionListener value="#{utente}" target="#{gestioneUtentiBean.utenteSelezionato}" />
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+   
+        <p:dialog header="Utenti Details" showEffect="fade" modal="true" widgetVar="manageUtentiDialog"
+            responsive="true">
+            <p:outputPanel id="manage-utenti-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty gestioneUtentiBean.utenteSelezionato}">
+                    <div class="field">
+                        <p:outputLabel for="email">Email:</p:outputLabel>
+                        <p:inputText id="email" value="#{gestioneUtentiBean.utenteSelezionato.email}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="password">Password:</p:outputLabel>
+                        <p:inputText id="password" value="#{gestioneUtentiBean.utenteSelezionato.password}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="nome">Nome:</p:outputLabel>
+                        <p:inputText id="nome" value="#{gestioneUtentiBean.utenteSelezionato.nome}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="cognome">Cognome:</p:outputLabel>
+                        <p:inputText id="cognome" value="#{gestioneUtentiBean.utenteSelezionato.cognome}" />
+                    </div>
+                    
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{gestioneUtentiBean.saveUtente()}"
+                    update="@form" process="manage-utenti-content @this" />
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUtentiDialog').hide()"
+                    class="ui-button-secondary" type="button" />
+            </f:facet>
+        </p:dialog>
+
+        <p:confirmDialog widgetVar="deleteUtentiDialog" showEffect="fade" width="300"
+            message="Delete the user?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{gestioneUtentiBean.deleteUtente()}"
+                process="@this" update="@form"
+                oncomplete="PF('deleteUtentiDialog').hide()" />
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                onclick="PF('deleteUtentiDialog').hide()" />
+        </p:confirmDialog>
+
+        <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                icon="pi pi-times" />
+        </p:confirmDialog>
+    </h:form>
+    </div>
+</h:body> 
+</html>

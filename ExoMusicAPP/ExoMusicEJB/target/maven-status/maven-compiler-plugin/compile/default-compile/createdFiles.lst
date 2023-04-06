@@ -1,0 +1,14 @@
+it\exolab\controller\UtenteController.class
+it\exolab\controller\GenereController.class
+it\exolab\interfaces\CanzoneInterface.class
+it\exolab\controller\PlaylistController.class
+it\exolab\interfaces\AlbumInterface.class
+it\exolab\interfaces\ArtistaInterface.class
+it\exolab\controller\CanzoniPlaylistController.class
+it\exolab\interfaces\PlaylistInterface.class
+it\exolab\interfaces\CanzoniPlaylistInterface.class
+it\exolab\controller\ArtistaController.class
+it\exolab\interfaces\UtenteInterface.class
+it\exolab\interfaces\GenereInterface.class
+it\exolab\controller\AlbumController.class
+it\exolab\controller\CanzoneController.class

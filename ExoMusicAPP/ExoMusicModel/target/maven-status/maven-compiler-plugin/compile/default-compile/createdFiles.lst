@@ -1,0 +1,10 @@
+it\exolab\models\Artista.class
+it\exolab\models\Canzone.class
+it\exolab\models\TipoAbbonamento.class
+it\exolab\models\Utente.class
+it\exolab\models\Ruolo.class
+it\exolab\models\Album.class
+it\exolab\models\Playlist.class
+it\exolab\models\CanzoniPlaylist.class
+it\exolab\models\Genere.class
+it\exolab\models\Abbonamento.class

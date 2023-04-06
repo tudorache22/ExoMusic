@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.ArtistaMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Artista" useGeneratedKeys="true" keyProperty="idArtista" keyColumn="id_artista">
+		INSERT INTO artista (nome_artista,ascoltatori)
+		VALUES(
+			#{nomeArtista},
+			#{ascoltatori}
+		)
+	</insert>
+
+	<select id="findById" resultMap="artistaMap"	parameterType="Integer">
+
+				SELECT
+				id_artista,
+				nome_artista,
+				ascoltatori 
+		
+		FROM artista
+
+		WHERE id_artista = #{idArtista}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Artista">
+
+		UPDATE artista SET
+			nome_artista=#{nomeArtista},
+			ascoltatori=#{ascoltatori}
+		WHERE id_artista = #{idArtista}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM artista WHERE id_artista = #{idArtista}
+
+	</delete>
+
+	 <select id="findAll" resultMap="artistaMap">
+
+		SELECT
+		id_artista,
+		nome_artista,
+		ascoltatori 
+		
+		FROM artista
+	
+	</select>
+	
+	<select id="findInserimento" resultMap="artistaMap"	parameterType="it.exolab.models.Artista">
+
+				SELECT
+				id_artista,
+				nome_artista,
+				ascoltatori 
+		
+		FROM artista
+
+		WHERE nome_artista = #{nomeArtista} AND ascoltatori = #{ascoltatori}
+
+	</select>
+
+	<resultMap id="artistaMap"
+		type="it.exolab.models.Artista">
+		<result property="idArtista" column="id_artista" />
+		<result property="nomeArtista" column="nome_artista" />
+		<result property="ascoltatori" column="ascoltatori" />
+
+	</resultMap>
+</mapper>

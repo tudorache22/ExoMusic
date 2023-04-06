@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+	<div class="card crud-demo">
+    <h:form id="formGeneri">
+        <p:growl id="messaggiGenere" showDetail="true" />
+
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="New" icon="pi pi-plus" actionListener="#{genereBean.openNew()}"
+                    update="manage-generi-content" oncomplete="PF('manageGeneriDialog').show()"
+                    styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target="manage-generi-content" />
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
+
+        <p:dataTable id="dt-generi" widgetVar="dtGeneri" var="genere" value="#{genereBean.listaGeneri}"
+            reflow="true" styleClass="products-table" selection="#{genereBean.genereSelezionato}"
+            rowKey="#{genere.idGenere}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+            <f:facet name="header">
+                <div class="utenti-table-header">
+                    <span style="font-weight: bold">Lista Generi</span>
+                    <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtGeneri').filter()" placeholder="Search" />
+                    </span>
+                </div>
+            </f:facet>
+         
+
+
+            <p:column headerText="idGenere" sortBy="#{genere.idGenere}" filterBy="#{genere.idGenere}">
+                <h:outputText value="#{genere.idGenere}" />
+            </p:column>
+            
+            <p:column headerText="Genere" sortBy="#{genere.nomeGenere}" filterBy="#{genere.nomeGenere}">
+                <h:outputText value="#{genere.nomeGenere}" />
+            </p:column>
+            
+<!--             CAMBIARE -->
+            <p:column exportable="false">
+                <p:commandButton icon="pi pi-pencil" update=":formGeneri:manage-generi-content"
+                    oncomplete="PF('manageGeneriDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{genere}" target="#{genereBean.genereSelezionato}" />
+                    <p:resetInput target="manage-generi-content" />
+                </p:commandButton>
+<!--                CAMBIARE  -->
+                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                 process="@this"
+                                 oncomplete="PF('deleteGeneriDialog').show()">
+                    <f:setPropertyActionListener value="#{genere}" target="#{genereBean.genereSelezionato}" />
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+
+    
+        <p:dialog header="Genere Details" showEffect="fade" modal="true" widgetVar="manageGeneriDialog"
+            responsive="true">
+            <p:outputPanel id="manage-generi-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty genereBean.genereSelezionato}">
+                    <div class="field">
+                        <p:outputLabel for="nomeGenere">Genere:</p:outputLabel>
+                        <p:inputText id="nomeGenere" value="#{genereBean.genereSelezionato.nomeGenere}" />
+                    </div>                   
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{genereBean.saveGenere()}"
+                    update="@form" process="manage-generi-content @this" />
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageGeneriDialog').hide()"
+                    class="ui-button-secondary" type="button" />
+            </f:facet>
+        </p:dialog>
+
+        <p:confirmDialog widgetVar="deleteGeneriDialog" showEffect="fade" width="300"
+            message="Delete the music genere?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{genereBean.deleteGenere()}"
+                process="@this" update="@form"
+                oncomplete="PF('deleteGeneriDialog').hide()" />
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                onclick="PF('deleteGeneriDialog').hide()" />
+        </p:confirmDialog>
+
+        <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                icon="pi pi-times" />
+        </p:confirmDialog>
+        </h:form>
+    </div>
+</h:body> 
+</html>

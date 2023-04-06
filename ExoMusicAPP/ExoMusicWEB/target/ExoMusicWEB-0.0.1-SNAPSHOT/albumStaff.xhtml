@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+	<div class="card crud-demo">
+    <h:form id="formGestioneAlbum">
+        <p:growl id="messaggiAlbumStaff" showDetail="true" />
+
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="New" icon="pi pi-plus" actionListener="#{albumStaffBean.openNew()}"
+                    update="manage-album-staff-content" oncomplete="PF('manageAlbumDialog').show()"
+                    styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target="manage-album-staff-content" />
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
+
+        <p:dataTable id="dt-albumStaff" widgetVar="dtAlbumStaff" var="album" value="#{albumStaffBean.listaAlbum}"
+            reflow="true" styleClass="products-table" selection="#{albumStaffBean.albumSelezionato}"
+            rowKey="#{album.idAlbum}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">Lista Album</span>
+                    <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtAlbumStaff').filter()" placeholder="Search" />
+                    </span>
+                </div>
+            </f:facet>
+         
+
+
+            <p:column headerText="idAlbum" sortBy="#{album.idAlbum}" filterBy="#{album.idAlbum}">
+                <h:outputText value="#{album.idAlbum}" />
+            </p:column>
+            
+            <p:column headerText="Titolo ALbum" sortBy="#{album.titoloAlbum}" filterBy="#{album.titoloAlbum}">
+                <h:outputText value="#{album.titoloAlbum}" />
+            </p:column>
+            
+            <p:column headerText="Link Copertina" sortBy="#{album.copertina}" filterBy="#{album.copertina}">
+                <h:outputText value="#{album.copertina}" />
+            </p:column>
+            
+            <p:column headerText="Anno di Pubblicazione" sortBy="#{album.anno}" filterBy="#{album.anno}">
+                <h:outputText value="#{album.anno}" />
+            </p:column>
+            <p:column headerText="Artista" sortBy="#{album.artista.nomeArtista}" filterBy="#{album.artista.nomeArtista}">
+                <h:outputText value="#{album.artista.nomeArtista}" />
+            </p:column>
+            <p:column headerText="Genere" sortBy="#{album.genere.nomeGenere}" filterBy="#{album.genere.nomeGenere}">
+                <h:outputText value="#{album.genere.nomeGenere}" />
+            </p:column>
+            
+<!--             CAMBIARE -->
+            <p:column exportable="false">
+                <p:commandButton icon="pi pi-pencil" update=":formGestioneAlbum:manage-album-staff-content"
+                    oncomplete="PF('manageAlbumDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{album}" target="#{albumStaffBean.albumSelezionato}" />
+                    <p:resetInput target="manage-album-staff-content" />
+                </p:commandButton>
+<!--                CAMBIARE  -->
+                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                 process="@this"
+                                 oncomplete="PF('deleteProductDialog').show()">
+                    <f:setPropertyActionListener value="#{album}" target="#{albumStaffBean.albumSelezionato}" />
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+    
+        <p:dialog header="Album Details" showEffect="fade" modal="true" widgetVar="manageAlbumDialog"
+            responsive="true">
+            <p:outputPanel id="manage-album-staff-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty albumStaffBean.albumSelezionato}">
+                    <div class="field">
+                        <p:outputLabel for="nomeAlbum">Nome Album:</p:outputLabel>
+                        <p:inputText id="nomeAlbum" value="#{albumStaffBean.albumSelezionato.titoloAlbum}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="copertina">Link Copertina:</p:outputLabel>
+                        <p:inputText id="copertina" value="#{albumStaffBean.albumSelezionato.copertina}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="anno">Anno Di Pubblicazione:</p:outputLabel>
+                        <p:inputText id="anno" value="#{albumStaffBean.albumSelezionato.anno}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="artistaSelect">Artista:</p:outputLabel>
+                       		<p:selectOneMenu  value="#{artistaBean.artistaSelezionato}" id="artistaSelect" converter="#{artistaConverter}"> 
+				            	<f:selectItems value="#{artistaBean.listaArtisti}" var="artista" itemLabel="#{artista.nomeArtista}" itemValue="#{artista}"/>
+				        	</p:selectOneMenu>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="genereSelect">Genere:</p:outputLabel>
+                        	<p:selectOneMenu  value="#{genereBean.genereSelezionato}" id="genereSelect" converter="#{genereConverter}"> 
+				            	<f:selectItems value="#{genereBean.listaGeneri}" var="genere" itemLabel="#{genere.nomeGenere}" itemValue="#{genere}"/>
+				        	</p:selectOneMenu>
+                    </div>
+                    
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{albumStaffBean.saveAlbum()}"
+                    update="@form" process="manage-album-staff-content @this" />
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageAlbumDialog').hide()"
+                    class="ui-button-secondary" type="button" />
+            </f:facet>
+        </p:dialog>
+
+        <p:confirmDialog widgetVar="deleteAlbumDialog" showEffect="fade" width="300"
+            message="Delete the album?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{albumStaffBean.deleteAlbum()}"
+                process="@this" update="@form"
+                oncomplete="PF('deleteAlbumDialog').hide()" />
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                onclick="PF('deleteAlbumDialog').hide()" />
+        </p:confirmDialog>
+
+        <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                icon="pi pi-times" />
+        </p:confirmDialog>
+    </h:form>
+    </div>
+
+</h:body> 
+</html>

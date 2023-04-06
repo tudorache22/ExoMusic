@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.UtenteMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Utente" useGeneratedKeys="true" keyProperty="idUtente" keyColumn="id_utente">
+		INSERT INTO utente (email,password,nome,cognome,id_ruolo)
+		VALUES(
+			#{email},
+			#{password},
+			#{nome},
+			#{cognome},
+			1
+		)
+	</insert>
+
+	<select id="findById" resultMap="utenteMap"	parameterType="Integer">
+
+		SELECT
+			id_utente,
+			nome,
+		    cognome, 
+			email, 
+			password,
+			ruolo 
+	
+		FROM utente
+		LEFT JOIN ruolo ON utente.id_ruolo = ruolo.id_ruolo
+ 		WHERE utente.id_utente = #{idUtente}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Utente">
+
+		UPDATE utente SET
+			nome=#{nome},
+			cognome=#{cognome},
+			email=#{email},
+			password=#{password}
+		WHERE id_utente = #{idUtente}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM utente WHERE id_utente = #{idUtente}
+
+	</delete>
+
+	<select id="findAll" resultMap="utenteMap">
+
+			SELECT
+			id_utente,
+			nome,
+		    cognome, 
+			email, 
+			password,
+			ruolo 
+	
+		FROM utente
+		LEFT JOIN ruolo ON utente.id_ruolo = ruolo.id_ruolo
+		
+	</select>
+	
+	<select id="login" resultMap="utenteMap" parameterType="it.exolab.models.Utente">
+	SELECT
+			id_utente,
+			nome,
+		    cognome, 
+			email, 
+			password,
+			ruolo 
+	
+		FROM utente
+		LEFT JOIN ruolo ON utente.id_ruolo = ruolo.id_ruolo
+	WHERE utente.email LIKE #{email}  AND utente.password LIKE #{password}
+	
+	
+	</select>
+
+	<resultMap id="utenteMap"
+		type="it.exolab.models.Utente">
+		<result property="idUtente" column="id_utente" />
+		<result property="nome" column="nome" />
+		<result property="cognome" column="cognome" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		
+		<association property="ruolo" javaType="it.exolab.models.Ruolo">
+			<result property="ruolo" column="ruolo" />
+		</association>
+
+	</resultMap>
+</mapper>

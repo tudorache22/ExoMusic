@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.CanzoneMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Canzone" useGeneratedKeys="false" keyProperty="idCanzone" keyColumn="id_canzone">
+		INSERT INTO canzone (titolo_canzone,durata,id_album)
+		VALUES(
+			#{titoloCanzone},
+			#{durata},
+			#{album.idAlbum}
+		)
+	</insert>
+
+	<select id="findById" resultMap="canzoneMap"	parameterType="Integer">
+
+		SELECT
+			id_canzone,
+			titolo_canzone, 
+			durata,
+			canzone.id_album,
+			titolo_album 
+	
+
+		FROM canzone
+		LEFT JOIN album ON canzone.id_album = album.id_album
+		
+		WHERE id_canzone = #{idCanzone}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Canzone">
+
+		UPDATE canzone SET
+			titolo_canzone=#{titoloCanzone},
+			durata=#{durata},
+			id_album=#{album.idAlbum},
+		WHERE id_canzone = #{idCanzone}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM canzone WHERE id_canzone = #{idCanzone}
+
+	</delete>
+
+	<select id="findAll" resultMap="canzoneMap">
+
+		
+		SELECT
+			id_canzone,
+			titolo_canzone, 
+			durata,
+			canzone.id_album,
+			titolo_album 
+	
+
+		FROM canzone
+		LEFT JOIN album ON canzone.id_album = album.id_album
+
+	</select>
+	
+		<select id="findByAlbum" resultMap="canzoneMap" parameterType="it.exolab.models.Album">
+
+		
+		SELECT
+			id_canzone,
+			titolo_canzone, 
+			durata,
+			canzone.id_album,
+			titolo_album 
+
+		FROM canzone
+		LEFT JOIN album ON canzone.id_album = album.id_album
+		WHERE canzone.id_album = {idAlbum}
+
+	</select>
+	
+		<select id="findInserimento" resultMap="canzoneMap"	parameterType="it.exolab.models.Canzone">
+
+		SELECT
+			id_canzone,
+			titolo_canzone, 
+			durata,
+			canzone.id_album,
+			titolo_album 
+	
+
+		FROM canzone
+		LEFT JOIN album ON canzone.id_album = album.id_album
+		
+		WHERE canzone.titolo_canzone = #{titoloCanzone} AND canzone.id_album = #{album.idAlbum}
+
+	</select>
+	
+	
+
+	<resultMap id="canzoneMap"
+		type="it.exolab.models.Canzone">
+		<result property="idCanzone" column="id_canzone" />
+		<result property="titoloCanzone" column="titolo_canzone" />
+		<result property="durata" column="durata" />
+		
+
+		<association property="album" javaType="it.exolab.models.Album">
+			<result property="idAlbum" column="id_album" />
+			<result property="titoloAlbum" column="titolo_album" />
+		</association>
+		
+		
+		
+	</resultMap>
+</mapper>

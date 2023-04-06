@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+
+	<h:form id="formAbbonamenti" class="centro">
+		
+		<style>
+    .product-item .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-item .product-image {
+        width: 80%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+</style>
+		
+		<div class="card">
+        <p:carousel value="#{abbonamentoBean.listaAbbonamenti}" var="abbonamento" circular="true" autoplayInterval="10000"
+                    responsiveOptions="#{carouselView.responsiveOptions}" numVisible="3" numScroll="1">
+            <f:facet name="header">
+                <h5>Abbonamenti</h5>
+            </f:facet>
+
+            <div class="product-item">
+                <div class="product-item-content">
+                    <div class="mb-3">
+                       <img src="#{abbonamento.linkCopertina}" alt="Copertina Abbonamento"  class="product-image"/>
+                    </div>
+                    <div>
+                        <h2 class="mb-1"> #{abbonamento.nomeAbbonamento}</h2>
+                        <h4 class="mt-0 mb-3">Privilegi:</h4>
+                        <p>#{abbonamento.privilegi}</p>
+                        <div class="mt-5">
+                             <p:commandButton icon="pi pi-plus" update=":formAbbonamenti:manage-banca-content"
+			                    oncomplete="PF('manageBancaDialog').show()" 
+			                    styleClass="edit-button rounded-button ui-button-success" process="@this" value="Abbonati">
+				                    <f:setPropertyActionListener value="#{abbonamento}" target="#{abbonamentoBean.abbonamentoSelezionato}" />
+				                    <p:resetInput target="@this" />
+			                </p:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:carousel>
+    </div>
+    
+      <p:dialog header="Collegati Alla banca" showEffect="fade" modal="true" widgetVar="manageBancaDialog" 
+            responsive="true" id="dialogoBanca">
+            <p:outputPanel id="manage-banca-content" class="ui-fluid">
+                <p:outputPanel rendered="#{!bancaBean.collegato}">
+                    <div class="field">
+                          <p:outputLabel for="emailBanca">Email:</p:outputLabel>
+                        	<p:inputText  value="#{bancaBean.utente.email}" id="emailBanca" placeholder="inserisci email"/> 
+                        	<p:outputLabel for="passwordBanca">Password:</p:outputLabel>
+                        	<p:password  value="#{bancaBean.utente.password}" id="passwordBanca" toggleMask="true" redisplay="true" placeholder="inserisci password"/> 
+				   
+                    </div>
+                </p:outputPanel>
+                 <p:outputPanel rendered="#{bancaBean.collegato}">
+                    <div class="field">
+                       <p>Per effettuare il pagamento scegli la modalita di conferma:</p>
+                       <p:commandButton value="Ricevi un Otp sull'email" actionListener="#{bancaBean.richiediOtp()}" update="dialogoBanca" oncomplete="PF('manageBancaDialog').show()"/> 
+                    </div>
+                </p:outputPanel>
+                
+                 <p:outputPanel rendered="#{bancaBean.otpRicevuto}">
+                    <div class="field">
+                       <p>Ti abbiamo inviato il codice Otp tramite email. Inserisci il codice per confermare</p>
+                      <p:inputText  value="#{bancaBean.otp}"  placeholder="inserisci otp"/>
+                    </div>
+                </p:outputPanel>
+              
+              
+                
+          	  </p:outputPanel>
+          	     
+               <f:facet name="footer" >
+                <p:commandButton value="Accedi" icon="pi pi-check" actionListener="#{bancaBean.faiLogin()}"
+                    update="dialogoBanca" process="dialogoBanca" rendered="#{!bancaBean.collegato}" oncomplete="PF('manageBancaDialog').show()"/>
+                 <p:commandButton value="Conferma Otp" icon="pi pi-check" actionListener="#{bancaBean.faiLogin()}"
+                    update="manage-banca-content" process="manage-banca-content @this" rendered="#{bancaBean.otpRicevuto}"/>   
+                <p:commandButton value="Annulla" icon="pi pi-times" onclick="PF('manageBancaDialog').hide()"
+                    class="ui-button-secondary" type="button" />
+            </f:facet>
+
+         
+        </p:dialog>							
+		</h:form>
+
+</h:body> 
+</html>

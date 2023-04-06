@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+	<h:body >   
+		<h:form class="centro">
+		
+		<style>
+    .product-item .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+    .product-item .product-image {
+        width: 80%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+</style>
+		
+		<div class="card">
+        <p:carousel value="#{AlbumBean.listaAlbum}" var="album" circular="true" autoplayInterval="3000"
+                    responsiveOptions="#{carouselView.responsiveOptions}" numVisible="3" numScroll="1">
+            <f:facet name="header">
+                <h5>All Albums</h5>
+            </f:facet>
+
+            <div class="product-item">
+                <div class="product-item-content">
+                    <div class="mb-3">
+                       <img src="#{album.copertina}" alt="Copertina Album"  class="product-image"/>
+                    </div>
+                    <div>
+                        <h4 class="mb-1"> #{album.titoloAlbum}</h4>
+                        <h6 class="mt-0 mb-3">
+                        </h6>
+                        <div class="mt-5">
+                            <p:commandButton icon="pi pi-search" styleClass="rounded-button mr-2" action="#{AlbumBean.impostaAlbum(album)}" update=":contenuto"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:carousel>
+    </div>							
+		</h:form>
+	</h:body> 
+</html>
+

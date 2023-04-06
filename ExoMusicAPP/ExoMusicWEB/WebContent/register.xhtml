@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+
+  <div id="centra">
+       <h:form id="registerForm" >
+         <h:outputLabel value="Email" />
+         <h:inputText id="email" value="#{UtenteBean.utente.email}" required="false" maxLenght="20">
+        	 <f:validator validatorId="emailValidator"/>
+        	 <p:ajax event="keyup" update="emailMessage"/>
+         </h:inputText>
+         <p:message id="emailMessage" for="email" display="text"/>
+         
+         <h:outputLabel value="Password" />
+         <h:inputSecret id="password" value="#{UtenteBean.utente.password}" required="false">
+        	 <f:validator validatorId="passwordValidator" />
+        	 <p:ajax event="keyup" update="passwordMessage"/>
+         </h:inputSecret>
+             <p:message id="passwordMessage" for="password" display="text"/>
+         
+         <h:outputLabel value="Nome" />
+         <h:inputText id="nome" value="#{UtenteBean.utente.nome}" />
+         <h:outputLabel value="Cognome" />
+         <h:inputText id="cognome" value="#{UtenteBean.utente.cognome}" />
+         <br/>
+         <p:commandButton value="Crea Account" action="#{UtenteBean.register()}" />
+         <h:outputLabel value="Hai gia un account? Fai il Login"/>
+         <p:commandButton action="#{MostraBean.cambiaPagina('login')}" value="Fai il login" update=":contenuto" immediate="true"/>
+      </h:form>
+      </div>
+</h:body> 
+</html>

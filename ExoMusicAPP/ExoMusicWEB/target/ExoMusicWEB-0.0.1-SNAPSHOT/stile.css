@@ -1,0 +1,85 @@
+@charset "ISO-8859-1";
+body {
+  font-family: Arial, sans-serif;
+  background-color: #faf9f9;
+}
+
+
+header {
+  background-color: black;
+  color: white;
+  padding: 1rem;
+}
+
+
+
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"]{
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.Main {
+  padding: 20px;
+}
+
+footer {
+  padding: 20px;
+  background-color: #141414;
+  text-align: center;
+  margin-top: 100px;
+  color: #faf9f9;
+}
+
+
+.stilemio {
+  background-color: #fff;
+  width: 500px;
+  margin: 20px;
+  padding: 40px 50px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+}
+
+form{
+	 background-color: #fff;
+  width: 500px;
+  margin-top:60px;
+  margin-left:380px;
+  padding: 40px 50px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+	
+}
+
+#cardAlbum{
+	  width: 30px;
+	margin-top:60px;
+  margin-left:380px;
+  padding: 40px 50px;
+   border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+

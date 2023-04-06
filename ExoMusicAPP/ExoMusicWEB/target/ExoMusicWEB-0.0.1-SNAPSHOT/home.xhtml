@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+</h:head> 
+	<h:body>  
+	 
+	 <h1>Album Del giorno Consigliato:</h1>
+	 <h:form>
+			<div>
+				<h2>#{AlbumBean.albumConsigliato.titoloAlbum}</h2>
+				<img src="#{AlbumBean.albumConsigliato.copertina}" alt="Copertina Album" height="300px"/>
+			<br />
+				<b>Anno di Pubblicazione:</b>
+				<p>#{AlbumBean.albumConsigliato.anno}</p>
+			<br/>
+				<b>Artista:</b>
+				<p>#{AlbumBean.albumConsigliato.artista.nomeArtista}</p>
+			<br/>
+				<b>Genere:</b>
+				<p>#{AlbumBean.albumConsigliato.genere.nomeGenere}</p>
+			<br/>
+		</div>
+		</h:form>
+	</h:body> 
+</html>

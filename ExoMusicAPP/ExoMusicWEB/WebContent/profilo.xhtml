@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+           xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+
+	<h:form id="formGestioneUtenti" class="centro">
+	<p:growl id="messaggi" showDetail="true" />
+		<h2>Profile:</h2>
+		<p>Nome: #{UtenteBean.utente.nome}</p>
+		<p>Cognome: #{UtenteBean.utente.cognome}</p>
+		<p>Email: #{UtenteBean.utente.email}</p>
+	   			<p:commandButton icon="pi pi-pencil" update=":formGestioneUtenti:manage-utenti-content"
+                    oncomplete="PF('manageUtentiDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{UtenteBean.utente}" target="#{gestioneUtentiBean.utenteSelezionato}" />
+                    <p:resetInput target=":dialogsUtenti:manage-utenti-content" />
+                </p:commandButton>
+		<p:commandButton  value="mostraPlaylist" action="#{MostraBean.cambiaPagina('playlistUtente')}" update=":contenuto"/>
+
+        <p:dialog header="Utenti Details" showEffect="fade" modal="true" widgetVar="manageUtentiDialog"
+            responsive="true">
+            <p:outputPanel id="manage-utenti-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty gestioneUtentiBean.utenteSelezionato}">
+                    <div class="field">
+                        <p:outputLabel for="email">Email:</p:outputLabel>
+                        <p:inputTextarea id="email" value="#{gestioneUtentiBean.utenteSelezionato.email}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="password">Password:</p:outputLabel>
+                        <p:inputTextarea id="password" value="#{gestioneUtentiBean.utenteSelezionato.password}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="nome">Nome:</p:outputLabel>
+                        <p:inputTextarea id="nome" value="#{gestioneUtentiBean.utenteSelezionato.nome}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="cognome">Cognome:</p:outputLabel>
+                        <p:inputTextarea id="cognome" value="#{gestioneUtentiBean.utenteSelezionato.cognome}" />
+                    </div>
+                    
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{gestioneUtentiBean.saveUtente()}"
+                    update="@form" process="manage-utenti-content @this" />
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUtentiDialog').hide()"
+                    class="ui-button-secondary" type="button" />
+            </f:facet>
+        </p:dialog>
+        </h:form>
+</h:body> 
+</html>

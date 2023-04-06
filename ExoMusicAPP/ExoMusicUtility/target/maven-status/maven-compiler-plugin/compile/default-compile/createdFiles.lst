@@ -1,0 +1,14 @@
+it\exolab\createPdf\PdfFactory.class
+it\exolab\createPdf\PdfCreator.class
+it\exolab\validazioni\GenereValidazione.class
+it\exolab\validazioni\PlaylistValidazione.class
+it\exolab\validazioni\UtenteValidazione.class
+it\exolab\validazioni\ArtistaValidazione.class
+it\exolab\costanti\StringhePdf.class
+it\exolab\sendEmail\EmailFactory.class
+it\exolab\validazioni\CanzoneValidazione.class
+it\exolab\validazioni\CanzonePlaylistValidazione.class
+it\exolab\costanti\ContenitoreFont.class
+it\exolab\validazioni\AlbumValidazione.class
+it\exolab\costanti\StringheEmail.class
+it\exolab\sendEmail\EmailFactory$1.class

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.uoloMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Ruolo" useGeneratedKeys="true" keyProperty="idRuolo" keyColumn="id_ruolo">
+		INSERT INTO ruolo (ruolo)
+		VALUES(
+			#{ruolo}
+		)
+	</insert>
+
+	<select id="findById" resultMap="ruoloMap"	parameterType="Integer">
+
+		SELECT
+		id_ruolo,
+		ruolo
+
+		FROM ruolo
+		WHERE id_ruolo = #{idRuolo}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Ruolo">
+
+		UPDATE ruolo SET
+			ruolo=#{ruolo}
+			
+		WHERE id_ruolo = #{idRuolo}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM ruolo WHERE id_ruolo = #{idRuolo}
+
+	</delete>
+
+	 <select id="findAll" resultMap="ruoloMap">
+
+		SELECT
+		id_ruolo,
+		ruolo
+
+		FROM ruolo
+
+
+	</select>
+
+	<resultMap id="ruoloMap"
+		type="it.exolab.models.Ruolo">
+		<result property="idRuolo" column="id_ruolo" />
+		<result property="ruolo" column="ruolo" />
+		
+		
+		
+	</resultMap>
+</mapper>

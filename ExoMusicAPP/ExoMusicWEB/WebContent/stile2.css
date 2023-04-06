@@ -1,0 +1,30 @@
+@charset "ISO-8859-1";
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0E8388;
+}
+
+.centro{
+	 background-color: #fff;
+  width: 80%;
+  margin-top:60px;
+  margin-left:100px;
+   margin-right:100px;
+  padding: 40px 50px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+	
+}
+
+
+menuBar{
+	 background-color: #fff;
+}
+
+#footer {
+  background-color: black;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}

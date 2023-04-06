@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body>
+
+		<h3>#{playlistBean.selectedPlaylist.nomePlaylist}</h3>
+		
+		<h:form id="formCanzoni">
+		
+			 <p:growl id="messaggiPlaylistSingola" showDetail="true" />
+		
+		 <p:dataTable id="canzoni-playlist" widgetVar="canzoniPlaylist" var="canzone" value="#{CanzoniBean.listaCanzoni}"
+            reflow="true" styleClass="products-table" selection="#{CanzoniBean.canzoneSelezionata}"
+            rowKey="#{canzone.idCanzone}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+            <f:facet name="header">
+                <div class="canzoni-table-header">
+                    <span style="font-weight: bold">TitoloCanzone</span>
+                    <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('canzoniPlaylist').filter()" placeholder="Search" />
+                    </span>
+                </div>
+            </f:facet>
+         
+
+
+            <p:column headerText="Titolo Canzone" sortBy="#{canzone.titoloCanzone}" filterBy="#{canzone.titoloCanzone}">
+                <h:outputText value="#{canzone.titoloCanzone}" />
+            </p:column>
+             <p:column headerText="Durata" sortBy="#{canzone.durata}" filterBy="#{canzone.durata}">
+                <h:outputText value="#{canzone.durata}" />
+            </p:column>
+            <p:column exportable="false">
+                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                 process="@this"
+                                 oncomplete="PF('deleteCanzoneDialog').show()">
+                    <f:setPropertyActionListener value="#{canzone}" target="#{CanzoniBean.canzoneSelezionata}" />
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>		
+		
+
+        <p:confirmDialog widgetVar="deleteCanzoneDialog" showEffect="fade" width="300"
+            message="Delete the song?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{CanzoniBean.deleteCanzonePlaylist()}"
+                process="@this" update="@form"
+                oncomplete="PF('deleteCanzoneDialog').hide()" />
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                onclick="PF('deleteCanzoneDialog').hide()" />
+        </p:confirmDialog>
+
+        <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                icon="pi pi-times" />
+        </p:confirmDialog>
+    </h:form>
+		
+</h:body> 
+</html>

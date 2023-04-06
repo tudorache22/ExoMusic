@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.exolab.bancaExo</groupId>
+  <artifactId>ExoMusicBancaEAR</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>ear</packaging>
+  <name>ExoMusicBancaEAR</name>
+  
+  <dependencies>
+	  <dependency>
+	      <groupId>it.exolab.bancaExo</groupId>
+	      <artifactId>ExoMusicBancaDB</artifactId>
+	      <version>0.0.1-SNAPSHOT</version>
+	      <type>jar</type>
+	      <scope>provided</scope>
+	    </dependency>
+	    
+        <dependency>
+	      <groupId>it.exolab.bancaExo</groupId>
+	      <artifactId>ExoMusicBancaModel</artifactId>
+	      <version>0.0.1-SNAPSHOT</version>
+	      <type>jar</type>
+	      <scope>provided</scope>
+	    </dependency>
+	    
+   	    <dependency>
+	      <groupId>it.exolab.bancaExo</groupId>
+	      <artifactId>ExoMusicBancaEJB</artifactId>
+	      <version>0.0.1-SNAPSHOT</version>
+	      <type>ejb</type>
+	      <scope>provided</scope>
+	    </dependency>
+	    
+   	    <dependency>
+	      <groupId>it.exolab.bancaExo</groupId>
+	      <artifactId>ExoMusicBancaWEB</artifactId>
+	      <version>0.0.1-SNAPSHOT</version>
+	      <type>war</type>
+	      <scope>provided</scope>
+	    </dependency>
+  
+  
+  
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-ear-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <earSourceDirectory>EarContent</earSourceDirectory>
+           <generateApplicationXml>false</generateApplicationXml>
+          <version>8</version>
+          <defaultLibBundleDir>lib</defaultLibBundleDir>
+          <modules>
+           <jarModule>
+              <groupId>it.exolab.bancaExo</groupId>
+              <artifactId>ExoMusicBancaModel</artifactId>
+              <bundleFileName>ExoMusicBancaModel.jar</bundleFileName>
+            </jarModule>
+             <jarModule>
+              <groupId>it.exolab.bancaExo</groupId>
+              <artifactId>ExoMusicBancaDB</artifactId>
+              <bundleFileName>ExoMusicBancaDB.jar</bundleFileName>
+            </jarModule>
+             <ejbModule>
+              <groupId>it.exolab.bancaExo</groupId>
+              <artifactId>ExoMusicBancaEJB</artifactId>
+              <bundleFileName>ExoMusicBancaEJB.jar</bundleFileName>
+            </ejbModule>
+             <webModule>
+              <groupId>it.exolab.bancaExo</groupId>
+              <artifactId>ExoMusicBancaWEB</artifactId>
+              <contextRoot>/ExoMusicBancaWEB</contextRoot>
+              <bundleFileName>ExoMusicBancaWEB.war</bundleFileName>
+            </webModule>
+        
+          </modules>
+          
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

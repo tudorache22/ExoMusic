@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+	<div class="card crud-demo">
+    <h:form id="formArtisti">
+        <p:growl id="messaggiArtistiStaff" showDetail="true" />
+
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="New" icon="pi pi-plus" actionListener="#{artistaBean.openNew()}"
+                    update="manage-artisti-content" oncomplete="PF('manageArtistiDialog').show()"
+                    styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target="manage-artisti-content" />
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
+
+        <p:dataTable id="dt-artisti" widgetVar="dtArtisti" var="artista" value="#{artistaBean.listaArtisti}"
+            reflow="true" styleClass="products-table" selection="#{artistaBean.artistaSelezionato}"
+            rowKey="#{artista.idArtista}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+            <f:facet name="header">
+                <div class="utenti-table-header">
+                    <span style="font-weight: bold">Lista Artisti</span>
+                    <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtArtisti').filter()" placeholder="Search" />
+                    </span>
+                </div>
+            </f:facet>
+         
+
+
+            <p:column headerText="idArtista" sortBy="#{artista.idArtista}" filterBy="#{artista.idArtista}">
+                <h:outputText value="#{artista.idArtista}" />
+            </p:column>
+            
+            <p:column headerText="Nome Artista" sortBy="#{artista.nomeArtista}" filterBy="#{artista.nomeArtista}">
+                <h:outputText value="#{artista.nomeArtista}" />
+            </p:column>
+            
+            <p:column headerText="Ascoltatori" sortBy="#{artista.ascoltatori}" filterBy="#{artista.ascoltatori}">
+                <h:outputText value="#{artista.ascoltatori}" />
+            </p:column>
+            
+<!--             CAMBIARE -->
+            <p:column exportable="false">
+                <p:commandButton icon="pi pi-pencil" update=":formArtisti:manage-artisti-content"
+                    oncomplete="PF('manageArtistiDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{artista}" target="#{artistaBean.artistaSelezionato}" />
+                    <p:resetInput target="manage-artisti-content" />
+                </p:commandButton>
+<!--                CAMBIARE  -->
+                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                 process="@this"
+                                 oncomplete="PF('deleteArtistiDialog').show()">
+                    <f:setPropertyActionListener value="#{artista}" target="#{artistaBean.artistaSelezionato}" />
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+ 
+        <p:dialog header="Artista Details" showEffect="fade" modal="true" widgetVar="manageArtistiDialog"
+            responsive="true">
+            <p:outputPanel id="manage-artisti-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty artistaBean.artistaSelezionato}">
+                    <div class="field">
+                        <p:outputLabel for="nomeArtista">Nome Artista:</p:outputLabel>
+                        <p:inputText id="nomeArtista" value="#{artistaBean.artistaSelezionato.nomeArtista}" />
+                    </div>
+                       <div class="field">
+                        <p:outputLabel for="ascoltatori">Ascoltatori:</p:outputLabel>
+                        <p:inputText id="ascoltatori" value="#{artistaBean.artistaSelezionato.ascoltatori}" />
+                    </div>
+                </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{artistaBean.saveArtista()}"
+                    update="@form" process="manage-artisti-content @this" />
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageArtistiDialog').hide()"
+                    class="ui-button-secondary" type="button" />
+            </f:facet>
+        </p:dialog>
+
+        <p:confirmDialog widgetVar="deleteArtistiDialog" showEffect="fade" width="300"
+            message="Delete the artist?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{artistaBean.deleteArtista()}"
+                process="@this" update="@form"
+                oncomplete="PF('deleteArtistiDialog').hide()" />
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                onclick="PF('deleteArtistiDialog').hide()" />
+        </p:confirmDialog>
+
+        <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                icon="pi pi-times" />
+        </p:confirmDialog>
+    </h:form>
+    </div>
+
+</h:body> 
+</html>

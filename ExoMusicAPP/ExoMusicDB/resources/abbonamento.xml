@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.AbbonamentoMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Abbonamento" useGeneratedKeys="true" keyProperty="idAbbonamento" keyColumn="id_abbonamento">
+		INSERT INTO album (stato,data_scadenza,id_utente)
+		VALUES(
+			#{stato},
+			#{data_scadenza},
+			#{utente.id_utente}
+		)
+	</insert>
+
+	<select id="findById" resultMap="abbonamentoMap"	parameterType="Integer">
+
+		SELECT
+		id_abbonamento,
+		stato,
+		data_scadenza,
+		tipo_abbonamento.id_tipo_abbonamento,
+		costo,
+		informazioni,
+		utente.id_utente,
+		nome,
+	    cognome, 
+		email, 
+		password,
+		ruolo.id_ruolo,
+		ruolo
+			
+		FROM abbonamento
+		LEFT JOIN tipo_abbonamento ON abbonamento.id_tipo_abbonamento = tipo_abbonamento.id_tipo_abbonamento
+	    LEFT JOIN utente ON abbonamento.id_utente = utente.id_utente
+	    LEFT JOIN ruolo ON utente.id_ruolo = ruolo.id_ruolo
+		
+		WHERE album.id_album = #{idAlbum}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Abbonamento">
+
+		UPDATE album SET
+			stato=#{stato},
+			data_scadenza=#{dataScadenza},
+			id_tipo_abbonamento=#{tipoAbbonamento.id_tipo_abbonamento}
+			id_utente= 	#{utente.id_utente}
+			
+		WHERE id_abbonamento = #{idAbbonamento}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM abbonamento WHERE id_abbonamento = #{idAbbonamento}
+
+	</delete>
+	
+	<select id="findAll" resultMap="abbonamentoMap">
+
+			SELECT
+		id_abbonamento,
+		stato,
+		data_scadenza,
+		tipo_abbonamento.id_tipo_abbonamento,
+		costo,
+		informazioni,
+		utente.id_utente,
+		nome,
+	    cognome, 
+		email, 
+		password,
+		ruolo.id_ruolo,
+		ruolo
+			
+		FROM abbonamento
+		LEFT JOIN tipo_abbonamento ON abbonamento.id_tipo_abbonamento = tipo_abbonamento.id_tipo_abbonamento
+	    LEFT JOIN utente ON abbonamento.id_utente = utente.id_utente
+	    LEFT JOIN ruolo ON utente.id_ruolo = ruolo.id_ruolo
+
+	</select>
+
+
+	<resultMap id="abbonamentoMap"
+		type="it.exolab.models.Abbonamento">
+		<result property="idAbbonamento" column="id_abbonamento" />
+		<result property="stato" column="stato" />
+		<result property="dataScadenza" column="data_scadenza" />
+
+		<association property="tipoAbbonamento" javaType="it.exolab.models.TipoAbbonamento">
+			<result property="idTipoAbbonamento" column="id_tipo_abbonamento" />
+			<result property="costo" column="costo" />
+			<result property="informazioni" column="informazioni"/>
+		</association>
+		
+		<association property="utente" javaType="it.exolab.models.Utente">
+			<result property="idUtente" column="id_utente" />
+			<result property="nome" column="nome" />
+			<result property="cognome" column="cognome" />
+			<result property="email" column="email" />
+			<result property="password" column="password" />
+			
+				<association property="ruolo" javaType="it.exolab.models.Ruolo">
+						<result property="idRuolo" column="id_ruolo" />
+						<result property="ruolo" column="ruolo" />
+				</association>
+		</association>
+		
+		
+	</resultMap>
+</mapper>

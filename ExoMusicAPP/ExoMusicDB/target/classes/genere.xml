@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.GenereMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Genere" useGeneratedKeys="true" keyProperty="idGenere" keyColumn="id_genere">
+		INSERT INTO genere (nome_genere)
+		VALUES(
+			#{nomeGenere}
+		)
+	</insert>
+
+	<select id="findById" resultMap="genereMap"	parameterType="Integer">
+
+		SELECT
+		id_genere,
+		nome_genere 
+
+		FROM genere
+		WHERE id_genere = #{idGenere}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Genere">
+
+		UPDATE genere SET
+			nome_genere=#{nomeGenere}
+			
+		WHERE id_genere = #{idGenere}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM genere WHERE id_genere = #{idGenere}
+
+	</delete>
+
+	 <select id="findAll" resultMap="genereMap">
+
+		SELECT
+		id_genere,
+		nome_genere 
+
+		FROM genere
+
+	</select>
+	
+	<select id="findInserimento" resultMap="genereMap"	parameterType="it.exolab.models.Genere">
+
+		SELECT
+		id_genere,
+		nome_genere 
+
+		FROM genere
+		WHERE nome_genere = #{nomeGenere}
+
+	</select>
+
+	<resultMap id="genereMap"
+		type="it.exolab.models.Genere">
+		<result property="idGenere" column="id_genere" />
+		<result property="nomeGenere" column="nome_genere" />
+		
+		
+	</resultMap>
+</mapper>

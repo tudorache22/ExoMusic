@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.AlbumMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Album" useGeneratedKeys="true" keyProperty="idAlbum" keyColumn="id_album">
+		INSERT INTO album (titolo_album,copertina,anno,id_artista,id_genere)
+		VALUES(
+			#{titoloAlbum},
+			#{copertina},
+			#{anno},
+			#{artista.idArtista},
+			#{genere.idGenere}
+		)
+	</insert>
+
+	<select id="findById" resultMap="albumMap"	parameterType="Integer">
+
+		SELECT
+		album.id_album,
+		titolo_album,
+		copertina,
+		anno,
+		album.id_artista,
+		nome_artista,
+		album.id_genere,
+		nome_genere,
+		id_canzone,
+		titolo_canzone,
+		durata
+			
+		FROM album
+		LEFT JOIN artista ON album.id_artista = artista.id_artista
+		LEFT JOIN genere ON album.id_genere = genere.id_genere
+		LEFT JOIN canzone ON album.id_album = canzone.id_album
+		WHERE album.id_album = #{idAlbum}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Album">
+
+		UPDATE album SET
+			titolo_album=#{titoloAlbum},
+			id_artista=#{artista.idArtista},
+			anno=#{anno},
+			id_genere=#{genere.idGenere},
+			copertina=#{copertina}
+			
+		WHERE id_album = #{idAlbum}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM album WHERE id_album = #{idAlbum}
+
+	</delete>
+
+	 <select id="findAll" resultMap="albumMap">
+
+		SELECT
+		album.id_album,
+		titolo_album,
+		copertina,
+		anno,
+		album.id_artista,
+		nome_artista,
+		album.id_genere,
+		nome_genere,
+		id_canzone,
+		titolo_canzone,
+		durata
+			
+		FROM album
+		LEFT JOIN artista ON album.id_artista = artista.id_artista
+		LEFT JOIN genere ON album.id_genere = genere.id_genere
+		LEFT JOIN canzone ON album.id_album = canzone.id_album
+
+	</select>
+	
+	<select id="findInserimento" resultMap="albumMap"	parameterType="it.exolab.models.Album">
+
+		SELECT
+		album.id_album,
+		titolo_album,
+		copertina,
+		anno,
+		album.id_artista,
+		nome_artista,
+		album.id_genere,
+		nome_genere,
+		id_canzone,
+		titolo_canzone,
+		durata
+			
+		FROM album
+		LEFT JOIN artista ON album.id_artista = artista.id_artista
+		LEFT JOIN genere ON album.id_genere = genere.id_genere
+		LEFT JOIN canzone ON album.id_album = canzone.id_album
+		WHERE album.titolo_album = #{titoloAlbum} AND artista.nome_artista = #{artista.nomeArtista}
+		
+
+	</select>
+
+	<resultMap id="albumMap"
+		type="it.exolab.models.Album">
+		<result property="idAlbum" column="id_album" />
+		<result property="titoloAlbum" column="titolo_album" />
+		<result property="copertina" column="copertina" />
+		<result property="anno" column="anno" />
+
+		
+		<association property="artista" javaType="it.exolab.models.Artista">
+			<result property="idArtista" column="id_artista" />
+			<result property="nomeArtista" column="nome_artista" />
+		</association>
+		
+		<association property="genere" javaType="it.exolab.models.Genere">
+		<result property="idGenere" column="id_genere" />
+			<result property="nomeGenere" column="nome_genere" />
+		</association>
+		
+		<collection property="listaCanzoni" ofType="it.exolab.models.Canzone">
+			<result property="titoloCanzone" column="titolo_canzone" />
+			<result property="idCanzone" column="id_canzone" />
+			<result property="durata" column="durata" />
+		</collection>
+		
+		
+	</resultMap>
+</mapper>

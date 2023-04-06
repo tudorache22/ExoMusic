@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<h:body> 
+	<h:form>
+		<div id="navbar">
+			<p:menubar>
+			    	<p:menuitem action="#{MostraBean.cambiaPagina('home')}" value="Home" update="contenuto"/>
+			    	<p:menuitem action="#{MostraBean.cambiaPagina('profilo')}"  value="Profilo" update="contenuto"/>
+			    	<p:menuitem action="#{MostraBean.cambiaPagina('albumStaff')}"  value="Modifica Album" update="contenuto"/>
+			    	<p:menuitem action="#{MostraBean.cambiaPagina('canzoniStaff')}"   value="Modifica Canzoni" update="contenuto"/>
+			    	<p:menuitem action="#{MostraBean.cambiaPagina('artistaStaff')}"   value="Modifica Artisti" update="contenuto"/>
+			    	<p:menuitem action="#{MostraBean.cambiaPagina('genereStaff')}"   value="Modifica Generi" update="contenuto"/>
+			    	<p:menuitem action="#{MostraBean.cambiaPagina('info')}"   value="Info" update="contenuto"/>
+			    	<p:menuitem action="#{UtenteBean.logout()}" value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
+		    </p:menubar>
+		</div>
+	</h:form>
+	
+	<h:panelGroup id="contenuto">
+		<ui:include src="/#{MostraBean.pagina}.xhtml" />
+	</h:panelGroup>
+
+</h:body> 
+</html>

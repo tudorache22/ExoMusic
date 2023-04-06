@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.PlaylistMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.Playlist" useGeneratedKeys="true" keyProperty="idPlaylist" keyColumn="id_playlist">
+		INSERT INTO playlist (nome_playlist,id_utente)
+		VALUES(
+			#{nomePlaylist},
+			#{utente.idUtente}
+		)
+	</insert>
+
+	<select id="findById" resultMap="playlistMap"	parameterType="Integer">
+
+		SELECT
+			id_playlist,
+			nome_playlist, 
+			id_utente 
+		
+			
+		FROM playlist 
+		WHERE id_playlist = #{idPlaylist}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Playlist">
+
+		UPDATE playlist SET
+			nome_playlist=#{nomePlaylist},
+			id_utente=#{utente.idUtente}
+		WHERE id_playlist = #{idPlaylist}
+	</update>
+
+
+	<delete id="delete" parameterType="Integer">
+		
+		DELETE FROM playlist WHERE id_playlist = #{idPlaylist}
+
+	</delete>
+
+	 <select id="findAll" resultMap="playlistMap">
+
+			SELECT
+			id_playlist,
+			nome_playlist, 
+			id_utente 
+		
+		FROM playlist 
+
+	</select>
+	
+	<select id="findAllById" resultMap="playlistMap" parameterType="Integer">
+
+			SELECT
+			playlist.id_playlist,
+			nome_playlist, 
+			playlist.id_utente,
+			canzone.id_canzone,
+			canzone.titolo_canzone,
+			durata,
+			album.id_album,
+			titolo_album
+			
+		
+		FROM playlist 
+		LEFT JOIN canzoni_playlist ON playlist.id_playlist = canzoni_playlist.id_playlist
+		LEFT JOIN canzone ON canzoni_playlist.id_canzone = canzone.id_canzone
+		LEFT JOIN album ON canzone.id_album = album.id_album
+		
+		WHERE playlist.id_utente = #{idUtente}
+
+	</select>
+	
+
+	<resultMap id="playlistMap"	type="it.exolab.models.Playlist">
+			<result property="idPlaylist" column="id_playlist" />
+			<result property="nomePlaylist" column="nome_playlist" />
+			
+		<association property="utente" javaType="it.exolab.models.Utente">
+			<result property="idUtente" column="id_utente" />
+		</association>
+		
+		<collection property="listaCanzoni" ofType="it.exolab.models.Canzone">
+			<result property="idCanzone" column="id_canzone"/>
+			<result property="titoloCanzone" column="titolo_canzone"/>
+			<result property="durata" column="durata"/>
+				<association property="album" javaType="it.exolab.models.Album">
+					<result property="idAlbum" column="id_album" />
+					<result property="titoloAlbum" column="titolo_album" />
+				</association>
+			
+		</collection>
+		
+		
+		
+	</resultMap>
+</mapper>

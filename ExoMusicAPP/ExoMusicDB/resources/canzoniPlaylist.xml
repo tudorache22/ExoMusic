@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.CanzoniPlaylistMapper">
+
+	<insert id="insert" parameterType="it.exolab.models.CanzoniPlaylist">
+		INSERT INTO canzoni_playlist (id_canzone,id_playlist)
+		VALUES(
+			#{canzone.idCanzone},
+			#{playlist.idPlaylist}
+		)
+	</insert>
+
+	<select id="findAllById" resultMap="canzoniPlaylistMap" parameterType="Integer">
+
+		SELECT
+		canzone.id_canzone,
+		playlist.id_playlist,
+		titolo_canzone, 
+		durata 
+		
+		FROM canzoni_playlist
+		LEFT JOIN canzone ON canzoni_playlist.id_canzone = canzone.id_canzone
+		LEFT JOIN playlist ON canzoni_playlist.id_playlist = playlist.id_playlist
+		
+		WHERE canzoni_playlist.id_playlist = #{idPlaylist}
+
+	</select>
+
+	<update id="update"
+		parameterType="it.exolab.models.Canzone">
+
+		UPDATE canzone SET
+			id_canzone=#{idCanzone},
+			id_playlist=#{idPlaylist}
+		WHERE id_playlist = #{idPlaylist}
+	</update>
+
+
+	<delete id="deleteCanzone" parameterType="it.exolab.models.CanzoniPlaylist">
+		
+		DELETE FROM canzoni_playlist WHERE id_playlist = #{playlist.idPlaylist} AND id_canzone = #{canzone.idCanzone}
+
+	</delete>
+	
+	
+
+<!-- 	<select id="findAll" resultMap="canzoniPlaylistMap"> -->
+
+<!-- 		SELECT -->
+<!-- 		playlist.id_playlist, -->
+<!-- 		nome_playlist -->
+<!-- 		canzone.id_canzone, -->
+<!-- 		titolo,  -->
+<!-- 		durata  -->
+		
+<!-- 		FROM canzoni_playlist -->
+<!-- 		LEFT JOIN playlist ON canzoni_playlist.id_playlist = playlist.id_playlist -->
+<!-- 		LEFT JOIN canzone ON canzoni_playlist.id_canzone = playlist.id_canzone -->
+
+		
+<!-- 	</select> -->
+	
+	
+	
+
+	<resultMap id="canzoniPlaylistMap"
+		type="it.exolab.models.Canzone">
+		<result property="idCanzone" column="id_canzone" />
+		<result property="titoloCanzone" column="titolo_canzone" />
+		<result property="durata" column="durata" />
+		
+		<collection property="listaPlaylist" ofType="it.exolab.models.Playlist">
+			<result property="idPlaylist" column="id_playlist" />
+		</collection>
+		
+	</resultMap>
+</mapper>

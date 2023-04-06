@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="it.exolab.mapper.TipoAbbonamentoMapper">
+
+	
+
+	<select id="findById" resultMap="tipoAbbonamentoMap"	parameterType="Integer">
+
+		SELECT
+		id_tipo_abbonamento,
+		costo,
+		nome_abbonamento,
+		privilegi,
+		link_copertina
+			
+		FROM tipo_abbonamento
+		
+		WHERE tipo_abbonamento.id_tipo_abbonamento = #{idTipoAbbonamento}
+
+	</select>
+
+	
+	
+	<select id="findAll" resultMap="tipoAbbonamentoMap">
+
+			SELECT
+		id_tipo_abbonamento,
+		costo,
+		nome_abbonamento,
+		privilegi,
+		link_copertina
+			
+		FROM tipo_abbonamento
+
+	</select>
+
+
+	<resultMap id="tipoAbbonamentoMap"
+		type="it.exolab.models.TipoAbbonamento">
+		<result property="idTipoAbbonamento" column="id_tipo_abbonamento" />
+		<result property="costo" column="costo" />
+		<result property="nomeAbbonamento" column="nome_abbonamento" />
+		<result property="privilegi" column="privilegi" />
+		<result property="linkCopertina" column="link_copertina" />
+		
+	</resultMap>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+                    
+    
+    
+    
+    <wb-module deploy-name="ExoMusicWEB-0.0.1-SNAPSHOT">
+                                        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                                        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                                        
+        
+        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="ExoMusicModel-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicModel/ExoMusicModel">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ExoMusicEJB-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicEJB/ExoMusicEJB">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ExoMusicUtility-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicUtility/ExoMusicUtility">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ExoMusicDB-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicDB/ExoMusicDB">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ExoMusicService-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicService/ExoMusicService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ExoMusicBancaModel-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicBancaModel/ExoMusicBancaModel">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+                                        
+        
+        
+        
+        <property name="context-root" value="ExoMusicWEB"/>
+                                        
+        
+        
+        
+        <property name="java-output-path" value="/ExoMusicWEB/build/classes"/>
+                                    
+    
+    
+    
+    </wb-module>
+                
+
+
+
+</project-modules>

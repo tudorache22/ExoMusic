@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
+    version="2.3">
+    
+      <managed-bean>
+        <managed-bean-name>UtenteBean</managed-bean-name>
+        <managed-bean-class>it.exolab.bean.UtenteBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+     <managed-bean>
+        <managed-bean-name>AlbumBean</managed-bean-name>
+        <managed-bean-class>it.exolab.bean.AlbumBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>MessagesView</managed-bean-name>
+        <managed-bean-class>it.exolab.bean.MessagesView</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>MostraBean</managed-bean-name>
+        <managed-bean-class>it.exolab.bean.MostraBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+     <managed-bean>
+        <managed-bean-name>playlistBean</managed-bean-name>
+        <managed-bean-class>it.exolab.bean.PlaylistBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+      <managed-bean>
+        <managed-bean-name>CanzoniBean</managed-bean-name>
+        <managed-bean-class>it.exolab.bean.CanzoniBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+</faces-config>
