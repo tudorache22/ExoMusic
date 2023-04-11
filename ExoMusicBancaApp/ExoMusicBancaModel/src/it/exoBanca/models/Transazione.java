@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -33,23 +37,28 @@ public class Transazione implements Serializable {
 	private Integer idTransazione;
 
 	@Temporal(TemporalType.DATE)
+	@JsonbDateFormat(value = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date data;
 
 	private Float importo;
 
-	private String stato;
+	@ManyToOne
+	@JoinColumn(name="id_stato")
+	private StatoTransazione statoTransazione;
 
 	@Column(name = "tipo_transazione")
 	private String tipoTransazione;
 
 	// bi-directional many-to-one association to Otp
 	@OneToMany(mappedBy = "transazione")
+	@JsonIgnore
 	private List<Otp> otps;
 
 	// bi-directional many-to-one association to Utente
 	@ManyToOne
 	@JoinColumn(name = "id_utente")
-	@JsonIgnore
+	@JsonBackReference
 	private Utente utente;
 
 	public Transazione() {
@@ -79,13 +88,7 @@ public class Transazione implements Serializable {
 		this.importo = importo;
 	}
 
-	public String getStato() {
-		return this.stato;
-	}
 
-	public void setStato(String stato) {
-		this.stato = stato;
-	}
 
 	public String getTipoTransazione() {
 		return this.tipoTransazione;
@@ -123,6 +126,14 @@ public class Transazione implements Serializable {
 
 	public void setUtente(Utente utente) {
 		this.utente = utente;
+	}
+
+	public StatoTransazione getStatoTransazione() {
+		return statoTransazione;
+	}
+
+	public void setStatoTransazione(StatoTransazione statoTransazione) {
+		this.statoTransazione = statoTransazione;
 	}
 
 }

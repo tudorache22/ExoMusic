@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import it.exoBanca.models.ContoCorrente;
 import it.exoBanca.models.Transazione;
+import it.exoBanca.models.Utente;
 
 @Local
 public interface TransazioneControllerInterface {

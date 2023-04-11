@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * The persistent class for the conto_corrente database table.
@@ -44,6 +45,7 @@ public class ContoCorrente implements Serializable {
 	// bi-directional many-to-one association to Utente
 	@ManyToOne
 	@JoinColumn(name = "id_utente")
+	@JsonIgnore
 	private Utente utente;
 
 	public ContoCorrente() {

@@ -6,7 +6,8 @@ const ModalMovimento = () => {
     const movimentoContext = useContext(MovimentoContext);
 
     return (
-        <div className="modal-dialog modal-dialog-centered" id="modalMovimento">
+        <div className="modal fade" id="modalMovimento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered" >
             <div className="modal-content">
                 <div className="modal-header">
                     <h3>Info Movimento</h3>
@@ -19,6 +20,7 @@ const ModalMovimento = () => {
                     <p>Data: {movimentoContext.movimento.data}</p>
                 </div>
             </div>
+        </div>
         </div>
     )
 

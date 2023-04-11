@@ -9,6 +9,7 @@
 		<class>it.exoBanca.models.Ruolo</class>
 		<class>it.exoBanca.models.Transazione</class>
 		<class>it.exoBanca.models.Utente</class>
+		<class>it.exoBanca.models.StatoTransazione</class>
 		
 		<properties>
         	<property name="hibernate.show_sql" value="true"/>

@@ -3,6 +3,7 @@ package it.exoBanca.models;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * The persistent class for the utente database table.
@@ -35,12 +38,13 @@ public class Utente implements Serializable {
 
 	// bi-directional many-to-one association to ContoCorrente
 	@OneToMany(mappedBy = "utente")
-	@JsonIgnore
+	@JsonbTransient
 	private List<ContoCorrente> contoCorrentes;
 
 	// bi-directional many-to-one association to Transazione
 	@OneToMany(mappedBy = "utente")
-	@JsonIgnore
+	@JsonbTransient
+	@JsonManagedReference
 	private List<Transazione> transaziones;
 
 	// bi-directional many-to-one association to Ruolo

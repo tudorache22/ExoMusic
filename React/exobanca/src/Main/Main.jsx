@@ -8,6 +8,10 @@ import Conto from "./Conto";
 import Home from "./Home";
 import Operazioni from "./Operazioni";
 import Profilo from "./Profilo";
+import InfoConto from "./InfoConto";
+import ListaMovimenti from "./ListaMovimenti";
+import ProvaMovimenti from "./ProvaMovimenti";
+
 
 const Main = () => {
 
@@ -33,7 +37,7 @@ const Main = () => {
                     <Operazioni />
                 </Route>
                 <Route exact path={"/conto"}>
-                    <Conto />
+                    <ListaMovimenti />
                 </Route>
                 <Route exact path={"/assistenza"}>
                     <Assistenza />

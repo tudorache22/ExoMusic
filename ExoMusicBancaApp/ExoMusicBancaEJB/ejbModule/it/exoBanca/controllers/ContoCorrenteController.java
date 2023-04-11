@@ -141,9 +141,11 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 
 		try {
 			transaction.begin();
-			Query query = entityManager.createQuery("Select c FROM ContoCorrente c WHERE c.id_utente = :id_utente");
-			query.setParameter("id_utente", id);
-			contoTrovato = (ContoCorrente) query.getResultList();
+			String query2 = "Select * FROM ContoCorrente WHERE id_utente = 2";
+//			Query query = entityManager.createQuery(query2.replace(":pippo:", id+""),ContoCorrente.class);
+			Query query = entityManager.createQuery(query2,ContoCorrente.class);
+			
+			contoTrovato = (ContoCorrente) query.getSingleResult();
 			logger.info(contoTrovato);
 			transaction.commit();
 			return contoTrovato;
@@ -155,4 +157,29 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 			entityManager.close();
 		}
 	}
+
+	public ContoCorrente findByNumeroConto(String numeroConto) {
+		ContoCorrente contoTrovato;
+		EntityManager entityManager = getEntityManager();
+		EntityTransaction transaction = entityManager.getTransaction();
+		logger.info("sei nel findByIdUtente ContoCorrente >>>" + numeroConto);
+
+		try {
+			transaction.begin();
+			Query query = entityManager
+					.createQuery("Select c FROM ContoCorrente c WHERE c.numeroConto = :numeroConto");
+			query.setParameter("numeroConto", numeroConto);
+			contoTrovato = (ContoCorrente) query.getSingleResult();
+			logger.info(contoTrovato);
+			transaction.commit();
+			return contoTrovato;
+		} catch (Exception e) {
+			e.printStackTrace();
+			transaction.rollback();
+			return null;
+		} finally {
+			entityManager.close();
+		}
+	}
+
 }

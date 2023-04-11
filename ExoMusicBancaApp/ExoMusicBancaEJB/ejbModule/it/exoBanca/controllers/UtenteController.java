@@ -147,6 +147,7 @@ public class UtenteController extends BaseController implements UtenteController
 			System.out.println(utenteTrovato);
 			transaction.commit();
 			return utenteTrovato;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();

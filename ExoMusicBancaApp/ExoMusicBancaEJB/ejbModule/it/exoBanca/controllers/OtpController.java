@@ -2,10 +2,12 @@ package it.exoBanca.controllers;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -165,11 +167,14 @@ public class OtpController extends BaseController implements OtpControllerInterf
 	public Otp creaOtp(Transazione transazione) throws InvalidKeyException, NoSuchAlgorithmException {
 		Otp otp = new Otp();
 		otp.setCodice(new GeneraOtp().generator());
-		Date in = new Date();
+		java.util.Date in = new java.util.Date();
 		LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
-		Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+		java.util.Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 
 		otp.setCreazione(out);
+		Date dataScadenza= Date.valueOf(LocalDate.now().plusDays(1));
+		java.util.Date dataConvertita = new java.util.Date(dataScadenza.getTime());
+		otp.setScadenza(dataConvertita);
 //		otp.setScadenza(otp.getCreazione().plusDays(1));
 		otp.setStato("attivo");
 		otp.setTransazione(transazione);

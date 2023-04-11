@@ -1,19 +1,20 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { ConnessoContext } from "../App";
+import { ConnessoContext, MovimentoContext, UtenteContext } from "../App";
 
 const SideBar = () => {
 
     const connessoContext = useContext(ConnessoContext);
+   const utenteContext=useContext(UtenteContext);
 
 
     const history = useHistory();
 
     function navigate(path) {
-        history(path);
+        history.push(path);
     }
 
-    if (connessoContext === true) {
+    if (connessoContext.connesso === true) {
         return (
             <div>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
@@ -34,7 +35,7 @@ const SideBar = () => {
                                 <button class="nav-link" onClick={() => navigate("/profilo")}>Profilo</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link" onClick={() => navigate("/conto")}>Conto</button>
+                                <button class="nav-link" onClick={() => {navigate("/conto"); console.log(utenteContext.utente)}}>Conto</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link" onClick={() => navigate("/operazioni")}>Operazioni</button>

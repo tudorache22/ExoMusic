@@ -31,23 +31,26 @@ function App() {
     password: "",
     email: "",
     ruolo: "",
-    anagrafica: anagrafica
+    anagrafica: anagrafica,
+    transaziones: [],
+    contoCorrentes:[]
   })
 
   const [connesso, setConnesso] = useState(false);
 
   const [contoCorrente, setContoCorrente] = useState({
+    idContoCorrente:"",
     numeroConto: "",
     dataScadenza: "",
     saldo: ""
   })
 
   const [movimento, setMovimento] = useState({
-    idTransazione: "",
-    data: "",
-    importo: "",
-    stato: "",
-    tipoTransazione: ""
+    idTransazione:"",
+    importo:"",
+    stato:"",
+    tipoTransazione:"",
+    data:""
   })
 
   const connessoContext = {

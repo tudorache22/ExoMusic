@@ -1,43 +1,36 @@
 package it.exoBanca.controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
-import it.exoBanca.ejbInterfaces.TransazioneControllerInterface;
-import it.exoBanca.models.ContoCorrente;
-import it.exoBanca.models.Transazione;
-import it.exoBanca.models.Utente;
+import it.exoBanca.ejbInterfaces.StatoTransazioneInterface;
+import it.exoBanca.models.StatoTransazione;
 
-@Stateless(name = "TransazioneControllerInterface")
-@LocalBean
-public class TransazioneController extends BaseController implements TransazioneControllerInterface {
+public class StatoTransazioneController extends BaseController implements StatoTransazioneInterface {
 
-	final static Logger logger = Logger.getLogger(TransazioneController.class);
+	final static Logger logger = Logger.getLogger(StatoTransazioneController.class);
 
 	@Override
-	public Transazione insert(Transazione transazione) {
-		logger.info("sei nel Transazione Controller insert >>>" + transazione);
+	public StatoTransazione insert(StatoTransazione StatoTransazione) {
+		logger.info("sei nel StatoTransazione Controller insert >>>" + StatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
 			transaction.begin();
-			if (!entityManager.contains(transazione)) {
-				transazione = entityManager.merge(transazione);
+			if (!entityManager.contains(StatoTransazione)) {
+				StatoTransazione = entityManager.merge(StatoTransazione);
 			}
-			entityManager.persist(transazione);
+			entityManager.persist(StatoTransazione);
 			transaction.commit();
-			return transazione;
+			return StatoTransazione;
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
@@ -48,17 +41,17 @@ public class TransazioneController extends BaseController implements Transazione
 	}
 
 	@Override
-	public Transazione update(Transazione transazione) {
-		logger.info("sei nel Transazione Controller update >>>" + transazione);
+	public StatoTransazione update(StatoTransazione StatoTransazione) {
+		logger.info("sei nel StatoTransazione Controller update >>>" + StatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
 			transaction.begin();
-			entityManager.merge(transazione);
+			entityManager.merge(StatoTransazione);
 			transaction.commit();
-			return transazione;
+			return StatoTransazione;
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
@@ -69,18 +62,18 @@ public class TransazioneController extends BaseController implements Transazione
 	}
 
 	@Override
-	public Transazione findById(Integer idTransazione) {
-		logger.info("sei nel Transazione Controller findById >>>" + idTransazione);
+	public StatoTransazione findById(Integer idStatoTransazione) {
+		logger.info("sei nel StatoTransazione Controller findById >>>" + idStatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
 			transaction.begin();
-			Transazione transazione = new Transazione();
-			transazione = entityManager.find(Transazione.class, idTransazione);
+			StatoTransazione StatoTransazione = new StatoTransazione();
+			StatoTransazione = entityManager.find(StatoTransazione.class, idStatoTransazione);
 			transaction.commit();
-			return transazione;
+			return StatoTransazione;
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();
@@ -91,17 +84,17 @@ public class TransazioneController extends BaseController implements Transazione
 	}
 
 	@Override
-	public List<Transazione> findAll() {
-		logger.info("sei nel Transazione Controller findAll >>>");
+	public List<StatoTransazione> findAll() {
+		logger.info("sei nel StatoTransazione Controller findAll >>>");
 
 		EntityManager entityManager = getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
 			transaction.begin();
-			List<Transazione> listaTransazioni = new ArrayList<Transazione>();
-			Query query = entityManager.createNativeQuery("SELECT * FROM transazione");
-			listaTransazioni.addAll((List<Transazione>) query.getResultList());
+			List<StatoTransazione> listaTransazioni = new ArrayList<StatoTransazione>();
+			Query query = entityManager.createNativeQuery("SELECT * FROM StatoTransazione");
+			listaTransazioni.addAll((List<StatoTransazione>) query.getResultList());
 			transaction.commit();
 			return listaTransazioni;
 		} catch (Exception e) {
@@ -114,15 +107,15 @@ public class TransazioneController extends BaseController implements Transazione
 	}
 
 	@Override
-	public void delete(Transazione transazione) {
-		logger.info("sei nel Transazione Controller delete >>>" + transazione);
+	public void delete(StatoTransazione StatoTransazione) {
+		logger.info("sei nel StatoTransazione Controller delete >>>" + StatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
 			transaction.begin();
-			entityManager.remove(entityManager.contains(transazione) ? transazione : entityManager.merge(transazione));
+			entityManager.remove(entityManager.contains(StatoTransazione) ? StatoTransazione : entityManager.merge(StatoTransazione));
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,5 +128,4 @@ public class TransazioneController extends BaseController implements Transazione
 	}
 	
 	
-
 }

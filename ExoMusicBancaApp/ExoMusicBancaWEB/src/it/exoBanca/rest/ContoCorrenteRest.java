@@ -124,6 +124,23 @@ public class ContoCorrenteRest extends BaseRest<ContoCorrente> {
 			return Response.status(500).build();
 		}
 	}
+	
+	@GET
+	@Path("/findContoCorrenteByNumeroConto/{NumeroConto}")
+	@Produces({ "application/json" })
+	public Response findByNumeroConto(@PathParam("NumeroConto") String numeroConto) {
+		logger.info("sei nel ContoCorrenteRest findContoCorrenteByNumeroConto >>>" + numeroConto);
+		try {
+			ContoCorrente contoUtente = new EJBFactory<ContoCorrenteControllerInterface>(
+					ContoCorrenteControllerInterface.class).getEJB().findByNumeroConto(numeroConto);
+			return Response.status(201).entity(contoUtente).build();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}
+	}
+	
 
 	@Override
 	Response insert(ContoCorrente model) {
