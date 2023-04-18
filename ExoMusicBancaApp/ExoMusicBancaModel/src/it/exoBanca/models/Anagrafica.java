@@ -125,6 +125,13 @@ public class Anagrafica implements Serializable {
 		return this.utentes;
 	}
 
+	@Override
+	public String toString() {
+		return "Anagrafica [idAnagrafica=" + idAnagrafica + ", codiceFiscale=" + codiceFiscale + ", cognome=" + cognome
+				+ ", dataNascita=" + dataNascita + ", luogoNascita=" + luogoNascita + ", nome=" + nome + ", provincia="
+				+ provincia + ", sesso=" + sesso + ", utentes=" + utentes + "]";
+	}
+
 	public void setUtentes(List<Utente> utentes) {
 		this.utentes = utentes;
 	}

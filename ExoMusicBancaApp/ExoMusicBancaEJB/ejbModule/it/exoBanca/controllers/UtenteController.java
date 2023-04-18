@@ -6,13 +6,16 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
 import it.exoBanca.ejbInterfaces.UtenteControllerInterface;
 import it.exoBanca.models.Utente;
+import it.exolab.validazioni.UtenteValidazione;
 
 @Stateless(name = "UtenteControllerInterface")
 @LocalBean
@@ -25,8 +28,10 @@ public class UtenteController extends BaseController implements UtenteController
 		logger.info("sei nel Utente Controller insert >>>" + utente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-
+		
+		if(new UtenteValidazione().utenteIsValid(utente)) {
 		try {
 			transaction.begin();
 			if (!entityManager.contains(utente)) {
@@ -42,6 +47,10 @@ public class UtenteController extends BaseController implements UtenteController
 			closeEntityManager();
 		}
 		return null;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -49,8 +58,10 @@ public class UtenteController extends BaseController implements UtenteController
 		logger.info("sei nel Utente Controller update >>>" + utente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-
+		
+		if(new UtenteValidazione().utenteIsValid(utente)) {
 		try {
 			transaction.begin();
 			entityManager.merge(utente);
@@ -63,6 +74,10 @@ public class UtenteController extends BaseController implements UtenteController
 			entityManager.close();
 		}
 		return null;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -70,6 +85,7 @@ public class UtenteController extends BaseController implements UtenteController
 		logger.info("sei nel Utente Controller findById >>>" + idUtente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -92,6 +108,7 @@ public class UtenteController extends BaseController implements UtenteController
 		logger.info("sei nel Utente Controller findAll >>>");
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -115,6 +132,7 @@ public class UtenteController extends BaseController implements UtenteController
 		logger.info("sei nel Utente Controller delete >>>" + utente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -134,6 +152,7 @@ public class UtenteController extends BaseController implements UtenteController
 	public Utente findByEmailPassword(Utente utente) {
 		Utente utenteTrovato;
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 		logger.info("sei nel Utente login >>>" + utente);
 
@@ -154,6 +173,18 @@ public class UtenteController extends BaseController implements UtenteController
 			return null;
 		} finally {
 			entityManager.close();
+		}
+	}
+	
+	public EntityManager controlloEM(EntityManager entityManager) {
+		if(entityManager.isOpen() == true) {
+			return entityManager;
+		}
+		else {
+			EntityManagerFactory entityManagerFactory = Persistence
+					.createEntityManagerFactory("ExoMusicBancaModel");
+			entityManager=entityManagerFactory.createEntityManager();
+			return entityManager;
 		}
 	}
 }

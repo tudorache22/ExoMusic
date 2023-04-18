@@ -5,13 +5,15 @@ import { AnagraficaContext, ConnessoContext, UtenteContext } from "../App";
 
 const Register = () => {
     const [email, setEmail] = useState("");
+    const [emailIsValid, setEmailIsValid] = useState(false);
     const [password, setPassword] = useState("");
-
+    const [passwordIsValid, setPasswordIsValid] = useState(false);
     const URIutente = "http://localhost:8080/ExoMusicBancaWEB/rest/UtenteRest/insertUtente";
-
     const utenteContext = useContext(UtenteContext);
     const connessoContext = useContext(ConnessoContext);
     const anagraficaContext = useContext(AnagraficaContext);
+    const regexEmail = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,})$/;
+    const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     const history = useHistory();
 
@@ -49,6 +51,16 @@ const Register = () => {
             .catch(error => {
                 console.error(error);
             })
+    }
+
+    function controlloEmail(e) {
+        setEmail(e.target.value);
+        setEmailIsValid(regexEmail.test(e.target.value));
+    }
+
+    function controlloPassword(e) {
+        setPassword(e.target.value);
+        setPasswordIsValid(regexPassword.test(e.target.value));
     }
 
     return (

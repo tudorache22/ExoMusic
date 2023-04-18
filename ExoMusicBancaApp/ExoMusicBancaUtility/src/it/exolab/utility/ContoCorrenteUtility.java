@@ -22,6 +22,7 @@ public class ContoCorrenteUtility {
 		contoCorrente.setDataScadenza(dataConvertita);
 		contoCorrente.setNumeroConto(getNumeroConto(utente.getAnagrafica()));
 		contoCorrente.setUtente(utente);
+		contoCorrente.setStatoConto("disattivato");
 		return contoCorrente;
 	}
 

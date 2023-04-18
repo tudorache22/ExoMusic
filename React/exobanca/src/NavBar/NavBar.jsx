@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { ConnessoContext } from "../App";
+import { ConnessoContext, UtenteContext } from "../App";
 
 const NavBar = () => {
 
     const connessoContext = useContext(ConnessoContext);
+    const utenteContext = useContext(UtenteContext);
 
     const history = useHistory();
 
@@ -12,7 +13,7 @@ const NavBar = () => {
         history.push(path)
     }
 
-    if (connessoContext.connesso === true) {
+    if (connessoContext.connesso && utenteContext.utenteContext.ruolo.idRuolo === 1) {
         return (
             <div style={{ marginBottom: "30px" }}>
                 <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -46,11 +47,8 @@ const NavBar = () => {
             </div>
         )
     }
-    else {
-        return <div></div>
-    }
-
 
 }
+
 
 export default NavBar;

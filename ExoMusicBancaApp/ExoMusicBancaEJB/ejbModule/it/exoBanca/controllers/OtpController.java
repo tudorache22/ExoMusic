@@ -13,7 +13,9 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
@@ -34,6 +36,7 @@ public class OtpController extends BaseController implements OtpControllerInterf
 		logger.info("sei nel Otp Controller insert >>>" + otp);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -58,6 +61,7 @@ public class OtpController extends BaseController implements OtpControllerInterf
 		logger.info("sei nel Otp Controller update >>>" + otp);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -79,6 +83,7 @@ public class OtpController extends BaseController implements OtpControllerInterf
 		logger.info("sei nel Otp Controller findById >>>" + idOtp);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -101,6 +106,7 @@ public class OtpController extends BaseController implements OtpControllerInterf
 		logger.info("sei nel Otp Controller findAll >>>");
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -124,6 +130,7 @@ public class OtpController extends BaseController implements OtpControllerInterf
 		logger.info("sei nel Otp Controller delete >>>" + otp);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -143,6 +150,7 @@ public class OtpController extends BaseController implements OtpControllerInterf
 	public Otp nuovoOtp(Transazione transazione) {
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -180,6 +188,18 @@ public class OtpController extends BaseController implements OtpControllerInterf
 		otp.setTransazione(transazione);
 		return otp;
 
+	}
+	
+	public EntityManager controlloEM(EntityManager entityManager) {
+		if(entityManager.isOpen() == true) {
+			return entityManager;
+		}
+		else {
+			EntityManagerFactory entityManagerFactory = Persistence
+					.createEntityManagerFactory("ExoMusicBancaModel");
+			entityManager=entityManagerFactory.createEntityManager();
+			return entityManager;
+		}
 	}
 
 //	public Otp findOtp(String codice) {

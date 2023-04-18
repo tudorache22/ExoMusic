@@ -8,7 +8,7 @@ const Footer = () => {
     if (connessoContext.connesso === true) {
         return (
             <footer>
-                <p>questo è il footer</p>
+                <p>@ExoBanca</p>
             </footer>
         )
     }

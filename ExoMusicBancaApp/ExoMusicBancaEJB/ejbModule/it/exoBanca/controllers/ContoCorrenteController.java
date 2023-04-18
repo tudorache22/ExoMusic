@@ -6,7 +6,9 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
@@ -15,6 +17,8 @@ import it.exoBanca.ejbInterfaces.ContoCorrenteControllerInterface;
 import it.exoBanca.models.ContoCorrente;
 import it.exoBanca.models.Utente;
 import it.exolab.utility.ContoCorrenteUtility;
+import it.exolab.validazioni.ContoCorrenteValidazione;
+import it.exolab.validazioni.UtenteValidazione;
 
 @Stateless(name = "ContoCorrenteControllerInterface")
 @LocalBean
@@ -27,8 +31,10 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 		logger.info("sei nel ContoCorrente Controller insert per la persona: >>>" + utente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-
+		
+		if(new UtenteValidazione().utenteIsValid(utente)){
 		try {
 			transaction.begin();
 			ContoCorrente contoCorrente = new ContoCorrenteUtility().getContoCorrente(utente);
@@ -42,6 +48,10 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 			closeEntityManager();
 		}
 		return null;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -49,8 +59,10 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 		logger.info("sei nel ContoCorrente Controller update >>>" + contoCorrente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-
+		
+		if(new ContoCorrenteValidazione().contoCorrenteIsValid(contoCorrente)) {
 		try {
 			transaction.begin();
 			entityManager.merge(contoCorrente);
@@ -63,6 +75,10 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 			entityManager.close();
 		}
 		return null;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -70,6 +86,7 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 		logger.info("sei nel ContoCorrente Controller findById >>>" + idContoCorrente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -92,6 +109,7 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 		logger.info("sei nel ContoCorrente Controller findAll >>>");
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -115,6 +133,7 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 		logger.info("sei nel ContoCorrente Controller delete >>>" + contoCorrente);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -136,6 +155,7 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 	public ContoCorrente findByIdUtente(Integer id) {
 		ContoCorrente contoTrovato;
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 		logger.info("sei nel findByIdUtente ContoCorrente >>>" + id);
 
@@ -161,6 +181,7 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 	public ContoCorrente findByNumeroConto(String numeroConto) {
 		ContoCorrente contoTrovato;
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 		logger.info("sei nel findByIdUtente ContoCorrente >>>" + numeroConto);
 
@@ -179,6 +200,17 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 			return null;
 		} finally {
 			entityManager.close();
+		}
+	}
+	public EntityManager controlloEM(EntityManager entityManager) {
+		if(entityManager.isOpen() == true) {
+			return entityManager;
+		}
+		else {
+			EntityManagerFactory entityManagerFactory = Persistence
+					.createEntityManagerFactory("ExoMusicBancaModel");
+			entityManager=entityManagerFactory.createEntityManager();
+			return entityManager;
 		}
 	}
 

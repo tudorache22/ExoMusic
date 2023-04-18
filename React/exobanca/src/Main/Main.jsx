@@ -11,21 +11,29 @@ import Profilo from "./Profilo";
 import InfoConto from "./InfoConto";
 import ListaMovimenti from "./ListaMovimenti";
 import ProvaMovimenti from "./ProvaMovimenti";
+import Deposito from "./Deposito";
+import Notifiche from "./Notifiche";
+import ManageTranaszioni from "../MainAdmin/ManageTransazioni";
+import ControllTransazione from "../MainAdmin/ControllTransazione";
+import ManageConti from "../MainAdmin/ManageConti";
+import ControllConto from "../MainAdmin/ControllConto";
+import Login2 from "./Login2";
 
 
 const Main = () => {
+
 
     return (
         <div>
             <Switch>
                 <Route exact path={"/"}>
-                    <Login />
+                    <Login2 />
                 </Route>
                 <Route exact path={"/register"}>
                     <Register />
                 </Route>
                 <Route exact path={"/login"}>
-                    <Login />
+                    <Login2 />
                 </Route>
                 <Route exact path={"/home"}>
                     <Home />
@@ -37,13 +45,28 @@ const Main = () => {
                     <Operazioni />
                 </Route>
                 <Route exact path={"/conto"}>
-                    <ListaMovimenti />
+                    <Conto />
                 </Route>
                 <Route exact path={"/assistenza"}>
                     <Assistenza />
                 </Route>
                 <Route exact path={"/anagrafica"}>
                     <Anagrafica />
+                </Route>
+                <Route exact path={"/notifiche"}>
+                    <Notifiche />
+                </Route>
+                <Route exact path={"/manageTransazioni"}>
+                    <ManageTranaszioni />
+                </Route>
+                <Route exact path={"/controllTransazione"}>
+                    <ControllTransazione />
+                </Route>
+                <Route exact path={"/manageConti"}>
+                    <ManageConti />
+                </Route>
+                <Route exact path={"/controllConto"}>
+                    <ControllConto />
                 </Route>
             </Switch>
         </div>

@@ -6,13 +6,16 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
 import it.exoBanca.ejbInterfaces.AnagraficaControllerInterface;
 import it.exoBanca.models.Anagrafica;
+import it.exolab.validazioni.AnagraficaValidazione;
 
 @Stateless(name = "AnagraficaControllerInterface")
 @LocalBean
@@ -25,8 +28,10 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 		logger.info("sei nel Anagrafica Controller insert >>>" + anagrafica);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-
+		
+		if(new AnagraficaValidazione().anagraficaIsValid(anagrafica)) {
 		try {
 			transaction.begin();
 			if (!entityManager.contains(anagrafica)) {
@@ -42,6 +47,10 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 			closeEntityManager();
 		}
 		return null;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -49,8 +58,10 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 		logger.info("sei nel Anagrafica Controller update >>>" + anagrafica);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-
+		
+		if(new AnagraficaValidazione().anagraficaIsValid(anagrafica)) {
 		try {
 			transaction.begin();
 			entityManager.merge(anagrafica);
@@ -63,6 +74,10 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 			entityManager.close();
 		}
 		return null;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -70,6 +85,7 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 		logger.info("sei nel Anagrafica Controller findById >>>" + idAnagrafica);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -92,6 +108,7 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 		logger.info("sei nel Anagrafica Controller findAll >>>");
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -115,6 +132,7 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 		logger.info("sei nel Anagrafica Controller delete >>>" + anagrafica);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -129,6 +147,18 @@ public class AnagraficaController extends BaseController implements AnagraficaCo
 			entityManager.close();
 		}
 
+	}
+	
+	public EntityManager controlloEM(EntityManager entityManager) {
+		if(entityManager.isOpen() == true) {
+			return entityManager;
+		}
+		else {
+			EntityManagerFactory entityManagerFactory = Persistence
+					.createEntityManagerFactory("ExoMusicBancaModel");
+			entityManager=entityManagerFactory.createEntityManager();
+			return entityManager;
+		}
 	}
 
 }

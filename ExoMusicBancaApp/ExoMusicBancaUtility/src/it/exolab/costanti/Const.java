@@ -22,5 +22,9 @@ public class Const {
 
 	public static final String[] CODICE_FISCALE_LETTERA_MESE = { "A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S",
 			"T" };
-
+	
+	public static final String NAME_REGEX = "^[a-zA-Z]+$";
+	public static final String CODICE_FISCALE_REGEX= "^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$";
+	public static final String EMAIL_REGEX="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,})$";
+	public static final String PASSWORD_REGEX="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
 }

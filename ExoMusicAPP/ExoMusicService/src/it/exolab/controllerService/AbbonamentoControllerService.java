@@ -2,6 +2,7 @@ package it.exolab.controllerService;
 
 import java.util.List;
 
+import it.exoBanca.models.Transazione;
 import it.exoBanca.models.Utente;
 import it.exolab.client.ClientAbbonamento;
 import it.exolab.converterJson.ConverterJson;
@@ -74,6 +75,15 @@ public class AbbonamentoControllerService {
 		String risposta = new ClientAbbonamento().richiediOtp(requestBody);
 		System.out.println(risposta);
 		return risposta;
+	}
+	
+	public Boolean faiTransazione(Transazione transazione) {
+		String requestBody= new ConverterJson().convertTransazioneToJson(transazione);
+		String risposta= new ClientAbbonamento().faiTransazione(requestBody);
+		if(null != risposta && ""!=risposta) {
+			return true;
+		}
+		else return false;
 	}
 
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.exoBanca.models.Otp;
+import it.exoBanca.models.Transazione;
 import it.exoBanca.models.Utente;
 import it.exolab.models.Abbonamento;
 
@@ -102,6 +103,22 @@ public class ConverterJson {
 			return null;
 		}
 
+	}
+	
+	public String convertTransazioneToJson(Transazione transazione) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonUtente=mapper.writeValueAsString(transazione.getUtente());
+			String json = mapper.writeValueAsString(transazione);
+			
+			String jsonFinale= json.substring(0,json.length()-1)+",\"utente\":"+jsonUtente+"}";
+			System.out.println(jsonFinale);
+			return jsonFinale;
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

@@ -39,12 +39,13 @@ public class Utente implements Serializable {
 	// bi-directional many-to-one association to ContoCorrente
 	@OneToMany(mappedBy = "utente")
 	@JsonbTransient
+	@JsonManagedReference("contoCorrente")
 	private List<ContoCorrente> contoCorrentes;
 
 	// bi-directional many-to-one association to Transazione
 	@OneToMany(mappedBy = "utente")
 	@JsonbTransient
-	@JsonManagedReference
+	@JsonManagedReference("transazione")
 	private List<Transazione> transaziones;
 
 	// bi-directional many-to-one association to Ruolo
@@ -143,5 +144,6 @@ public class Utente implements Serializable {
 	public void setAnagrafica(Anagrafica anagrafica) {
 		this.anagrafica = anagrafica;
 	}
+
 
 }

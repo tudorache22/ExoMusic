@@ -58,7 +58,7 @@ public class Transazione implements Serializable {
 	// bi-directional many-to-one association to Utente
 	@ManyToOne
 	@JoinColumn(name = "id_utente")
-	@JsonBackReference
+	@JsonBackReference(value="transazione")
 	private Utente utente;
 
 	public Transazione() {
@@ -134,6 +134,13 @@ public class Transazione implements Serializable {
 
 	public void setStatoTransazione(StatoTransazione statoTransazione) {
 		this.statoTransazione = statoTransazione;
+	}
+
+	@Override
+	public String toString() {
+		return "Transazione [idTransazione=" + idTransazione + ", data=" + data + ", importo=" + importo
+				+ ", statoTransazione=" + statoTransazione + ", tipoTransazione=" + tipoTransazione + ", otps=" + otps
+				+ ", utente=" + utente + "]";
 	}
 
 }

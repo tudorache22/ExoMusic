@@ -3,6 +3,7 @@ package it.exoBanca.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * The persistent class for the otp database table.
@@ -30,10 +33,12 @@ public class Otp implements Serializable {
 
 	private String codice;
 
-	@Temporal(TemporalType.DATE)
+	@JsonbDateFormat(value = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date creazione;
 
-	@Temporal(TemporalType.DATE)
+	@JsonbDateFormat(value = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date scadenza;
 
 	// bi-directional many-to-one association to Transazione

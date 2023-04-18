@@ -107,4 +107,21 @@ public class TransazioneRest extends BaseRest<Transazione> {
 			return Response.status(500).build();
 		}
 	}
+	
+	@PUT
+	@Path("/confermaTransazione")
+	@Produces({ "application/json" })
+	@Consumes({ "application/json" })
+	public Response confermaTransazione(Transazione transazione) {
+		logger.info("sei nel TransazioneRest update >>>" + transazione);
+		try {
+			transazione = new EJBFactory<TransazioneControllerInterface>(TransazioneControllerInterface.class).getEJB()
+					.confermaTransazione(transazione);
+			return Response.status(201).entity(transazione).build();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Response.status(500).build();
+		}
+	}
 }

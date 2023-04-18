@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MovimentoContext } from "../App";
+import { MovimentoContext, UtenteContext } from "../App";
 
 const ModalMovimento = () => {
 

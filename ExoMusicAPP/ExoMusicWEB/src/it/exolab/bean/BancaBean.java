@@ -1,11 +1,16 @@
 package it.exolab.bean;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import it.exoBanca.models.StatoTransazione;
+import it.exoBanca.models.Transazione;
 import it.exoBanca.models.Utente;
 import it.exolab.controllerService.AbbonamentoControllerService;
 
@@ -17,14 +22,19 @@ public class BancaBean implements Serializable {
 	private Utente utente;
 	private Boolean collegato;
 	private String otpInserito;
-	private Boolean otpRicevuto;
+	private Boolean transazioneFatta;
 	private String otp;
+	private Transazione transazione;
+	
+	@Inject
+	private AbbonamentoBean abbonamentoBean;
 
 	@PostConstruct
 	public void init() {
 		utente = new Utente();
 		collegato = false;
-		otpRicevuto = false;
+		transazioneFatta = false;
+		transazione= new Transazione();
 	}
 
 	public void faiLogin() {
@@ -38,11 +48,30 @@ public class BancaBean implements Serializable {
 	}
 
 	public void richiediOtp() {
-		String response = new AbbonamentoControllerService().richiediOtp(utente);
-		System.out.println("nel bean " + response);
+//		String response = new AbbonamentoControllerService().richiediOtp(utente);
+//		System.out.println("nel bean " + response);
+//
+//		otpRicevuto = (null != response && "" != response) ? true : false;
 
-		otpRicevuto = (null != response && "" != response) ? true : false;
-
+	}
+	
+	public void creaTransazione() {
+		transazione.setUtente(utente);
+		switch(abbonamentoBean.getAbbonamentoSelezionato().getIdTipoAbbonamento()) {
+		case 2: transazione.setImporto(10f); break;
+		case 3: transazione.setImporto(15f); break;
+		case 4: transazione.setImporto(20f); break;
+		}
+		transazione.setTipoTransazione("abbonamento");
+		StatoTransazione stato=new StatoTransazione();
+		stato.setIdStato(6);
+		stato.setStato("IN ATTESA");
+		transazione.setStatoTransazione(stato);
+		transazione.setData(new Date() );
+		
+		System.out.println(transazione);
+		transazioneFatta= new AbbonamentoControllerService().faiTransazione(transazione);
+		System.out.println(transazioneFatta);
 	}
 
 	public Utente getUtente() {
@@ -69,12 +98,12 @@ public class BancaBean implements Serializable {
 		this.otpInserito = otpInserito;
 	}
 
-	public Boolean getOtpRicevuto() {
-		return otpRicevuto;
+	public Boolean getTransazioneFatta() {
+		return transazioneFatta;
 	}
 
-	public void setOtpRicevuto(Boolean otpRicevuto) {
-		this.otpRicevuto = otpRicevuto;
+	public void setTransazioneFatta(Boolean otpRicevuto) {
+		this.transazioneFatta = otpRicevuto;
 	}
 
 	public String getOtp() {

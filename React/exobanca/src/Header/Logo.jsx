@@ -4,7 +4,7 @@ const Logo = () => {
 
     return (
         <div>
-            <p>Questo è il logo</p>
+            <img src="/ExoBanca.png" alt=""  style={{ width: 200, height: 200, marginLeft:100 }}/>
         </div>
     )
 

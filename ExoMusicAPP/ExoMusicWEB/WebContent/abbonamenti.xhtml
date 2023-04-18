@@ -69,15 +69,14 @@
                 </p:outputPanel>
                  <p:outputPanel rendered="#{bancaBean.collegato}">
                     <div class="field">
-                       <p>Per effettuare il pagamento scegli la modalita di conferma:</p>
-                       <p:commandButton value="Ricevi un Otp sull'email" actionListener="#{bancaBean.richiediOtp()}" update="dialogoBanca" oncomplete="PF('manageBancaDialog').show()"/> 
+                       <p>CONFERMA OPERAZIONE</p>
+                       <p:commandButton value="Ricevi un Otp sull'email" actionListener="#{bancaBean.creaTransazione()}" update="dialogoBanca" oncomplete="PF('manageBancaDialog').show()"/> 
                     </div>
                 </p:outputPanel>
                 
-                 <p:outputPanel rendered="#{bancaBean.otpRicevuto}">
+                 <p:outputPanel rendered="#{bancaBean.transazioneFatta}">
                     <div class="field">
-                       <p>Ti abbiamo inviato il codice Otp tramite email. Inserisci il codice per confermare</p>
-                      <p:inputText  value="#{bancaBean.otp}"  placeholder="inserisci otp"/>
+                       <p>TransazioneFatta!</p>
                     </div>
                 </p:outputPanel>
               
@@ -89,7 +88,7 @@
                 <p:commandButton value="Accedi" icon="pi pi-check" actionListener="#{bancaBean.faiLogin()}"
                     update="dialogoBanca" process="dialogoBanca" rendered="#{!bancaBean.collegato}" oncomplete="PF('manageBancaDialog').show()"/>
                  <p:commandButton value="Conferma Otp" icon="pi pi-check" actionListener="#{bancaBean.faiLogin()}"
-                    update="manage-banca-content" process="manage-banca-content @this" rendered="#{bancaBean.otpRicevuto}"/>   
+                    update="manage-banca-content" process="manage-banca-content @this" rendered="#{bancaBean.transazioneFatta}"/>   
                 <p:commandButton value="Annulla" icon="pi pi-times" onclick="PF('manageBancaDialog').hide()"
                     class="ui-button-secondary" type="button" />
             </f:facet>

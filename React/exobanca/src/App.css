@@ -5,7 +5,7 @@ body {
 
 
 header {
-  background-color: black;
+  background-color: #046DB5;
   color: white;
   padding: 1rem;
 }
@@ -57,17 +57,19 @@ input[type="email"] {
 /* Stile per il footer */
 footer {
   padding: 20px;
-  background-color: #141414;
+  background-color: #046DB5;
   text-align: center;
-  margin-top: 100px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
   color: #faf9f9;
 }
 
 
 .stilemio {
   background-color: #fff;
-  width: 500px;
-  margin: 20px;
+  margin: 10px;
   padding: 40px 50px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.1);

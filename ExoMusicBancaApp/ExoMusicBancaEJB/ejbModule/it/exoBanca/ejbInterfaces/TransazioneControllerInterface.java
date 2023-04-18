@@ -20,4 +20,6 @@ public interface TransazioneControllerInterface {
 	List<Transazione> findAll();
 
 	void delete(Transazione model);
+	
+	Transazione confermaTransazione(Transazione transazione);
 }

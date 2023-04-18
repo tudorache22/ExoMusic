@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
@@ -21,6 +23,7 @@ public class StatoTransazioneController extends BaseController implements StatoT
 		logger.info("sei nel StatoTransazione Controller insert >>>" + StatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -45,6 +48,7 @@ public class StatoTransazioneController extends BaseController implements StatoT
 		logger.info("sei nel StatoTransazione Controller update >>>" + StatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -66,6 +70,7 @@ public class StatoTransazioneController extends BaseController implements StatoT
 		logger.info("sei nel StatoTransazione Controller findById >>>" + idStatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -88,6 +93,7 @@ public class StatoTransazioneController extends BaseController implements StatoT
 		logger.info("sei nel StatoTransazione Controller findAll >>>");
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -111,6 +117,7 @@ public class StatoTransazioneController extends BaseController implements StatoT
 		logger.info("sei nel StatoTransazione Controller delete >>>" + StatoTransazione);
 
 		EntityManager entityManager = getEntityManager();
+		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -125,6 +132,18 @@ public class StatoTransazioneController extends BaseController implements StatoT
 			entityManager.close();
 		}
 
+	}
+	
+	public EntityManager controlloEM(EntityManager entityManager) {
+		if(entityManager.isOpen() == true) {
+			return entityManager;
+		}
+		else {
+			EntityManagerFactory entityManagerFactory = Persistence
+					.createEntityManagerFactory("ExoMusicBancaModel");
+			entityManager=entityManagerFactory.createEntityManager();
+			return entityManager;
+		}
 	}
 	
 	

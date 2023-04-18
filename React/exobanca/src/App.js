@@ -12,6 +12,11 @@ export const ConnessoContext = createContext();
 export const AnagraficaContext = createContext();
 export const ContoCorrenteContext = createContext();
 export const MovimentoContext = createContext();
+export const OtpContext = createContext();
+export const NotificheContext = createContext();
+export const UtenteSelezionatoContext = createContext();
+export const AllTransazioniContext = createContext();
+export const AllContiContext = createContext();
 
 function App() {
 
@@ -33,25 +38,45 @@ function App() {
     ruolo: "",
     anagrafica: anagrafica,
     transaziones: [],
-    contoCorrentes:[]
+    contoCorrentes: []
   })
 
   const [connesso, setConnesso] = useState(false);
 
   const [contoCorrente, setContoCorrente] = useState({
-    idContoCorrente:"",
+    idContoCorrente: "",
     numeroConto: "",
     dataScadenza: "",
     saldo: ""
   })
 
   const [movimento, setMovimento] = useState({
-    idTransazione:"",
-    importo:"",
-    stato:"",
-    tipoTransazione:"",
-    data:""
+    idTransazione: "",
+    importo: "",
+    stato: "",
+    tipoTransazione: "",
+    data: ""
   })
+
+  const [otp, setOtp] = useState({
+    codice: "",
+  })
+
+  const [notifiche, setNotifiche] = useState([])
+
+  const [utenteSelezionato, setUtenteSelezionato] = useState({
+    idUtente: "",
+    password: "",
+    email: "",
+    ruolo: "",
+    anagrafica: anagrafica,
+    transaziones: [],
+    contoCorrentes: []
+  })
+
+  const [allTransazioni, setAllTransazioni] = useState([])
+
+  const [allConti, setAllConti] = useState([])
 
   const connessoContext = {
     connesso: connesso,
@@ -78,6 +103,30 @@ function App() {
     setMovimento: setMovimento
   }
 
+  const otpContext = {
+    otp: otp,
+    setOtp: setOtp
+  }
+
+  const notificheContext = {
+    notifiche: notifiche,
+    setNotifiche: setNotifiche
+  }
+
+  const utenteSelezionatoContext = {
+    utenteSelezionato: utenteSelezionato,
+    setUtenteSelezionato: setUtenteSelezionato
+  }
+
+  const allTransazioniContext = {
+    allTransazioni: allTransazioni,
+    setAllTransazioni: setAllTransazioni
+  }
+
+  const allContiContext = {
+    allConti: allConti,
+    setAllConti: setAllConti
+  }
 
   return (
     <div className='row'>
@@ -86,18 +135,28 @@ function App() {
           <ConnessoContext.Provider value={connessoContext}>
             <ContoCorrenteContext.Provider value={contoCorrenteContext}>
               <MovimentoContext.Provider value={movimentoContext}>
-                <div className='col-12'>
-                  <Header />
-                </div>
-                <div className='col-12'>
-                  <SideBar />
-                </div>
-                <div className='col-12'>
-                  <Main />
-                </div>
-                <div className='col-12'>
-                  <Footer />
-                </div>
+                <OtpContext.Provider value={otpContext}>
+                  <NotificheContext.Provider value={notificheContext}>
+                    <UtenteSelezionatoContext.Provider value={utenteSelezionatoContext}>
+                      <AllTransazioniContext.Provider value={allTransazioniContext}>
+                        <AllContiContext.Provider value={allContiContext}>
+                          <div className='col-12'>
+                            <Header />
+                          </div>
+                          <div className='col-12'>
+                            <SideBar />
+                          </div>
+                          <div className='col-12'>
+                            <Main />
+                          </div>
+                          <div className='col-12' style={{ marginTop: 180 }}>
+                            <Footer />
+                          </div>
+                        </AllContiContext.Provider>
+                      </AllTransazioniContext.Provider>
+                    </UtenteSelezionatoContext.Provider>
+                  </NotificheContext.Provider>
+                </OtpContext.Provider>
               </MovimentoContext.Provider>
             </ContoCorrenteContext.Provider>
           </ConnessoContext.Provider>

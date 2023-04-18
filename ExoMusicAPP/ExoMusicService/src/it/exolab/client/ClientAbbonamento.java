@@ -128,4 +128,22 @@ public class ClientAbbonamento {
 			return null;
 		}
 	}
+	
+	public String faiTransazione(String requestBody) {
+		HttpRequest request = HttpRequest.newBuilder()
+				.uri(URI.create("http://127.0.0.1:8080/ExoMusicBancaWEB/rest/TransazioneRest/insertTransazione"))
+				.header("Content-Type", "application/json")
+				.POST(HttpRequest.BodyPublishers.ofString(requestBody))
+				.build();
+		HttpResponse<String> response;
+		try {
+			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+			System.out.println(response.body());
+			return response.body();
+		} catch (IOException | InterruptedException e) {
+			System.out.println("errore");
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

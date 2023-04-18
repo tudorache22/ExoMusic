@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,11 +42,14 @@ public class ContoCorrente implements Serializable {
 	private String numeroConto;
 
 	private Float saldo;
+	
+	@Column(name="stato_conto")
+	private String statoConto;
 
 	// bi-directional many-to-one association to Utente
 	@ManyToOne
 	@JoinColumn(name = "id_utente")
-	@JsonIgnore
+	@JsonBackReference("contoCorrente")
 	private Utente utente;
 
 	public ContoCorrente() {
@@ -89,6 +93,20 @@ public class ContoCorrente implements Serializable {
 
 	public void setUtente(Utente utente) {
 		this.utente = utente;
+	}
+
+	@Override
+	public String toString() {
+		return "ContoCorrente [idContoCorrente=" + idContoCorrente + ", dataScadenza=" + dataScadenza + ", numeroConto="
+				+ numeroConto + ", saldo=" + saldo + ", utente=" + utente + "]";
+	}
+
+	public String getStatoConto() {
+		return statoConto;
+	}
+
+	public void setStatoConto(String statoConto) {
+		this.statoConto = statoConto;
 	}
 
 }
