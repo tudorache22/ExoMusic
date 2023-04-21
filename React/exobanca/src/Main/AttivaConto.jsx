@@ -1,36 +1,26 @@
 import React, { useContext } from "react";
 import { AnagraficaContext, ContoCorrenteContext, UtenteContext } from "../App";
+import * as chiamata from "../Funzioni/ChiamataPost";
+import { useHistory } from "react-router-dom";
 
-const AttivaConto = ()=> {
+const AttivaConto = () => {
 
-    const utenteContext= useContext(UtenteContext);
-    const contoCorrenteContext=useContext(ContoCorrenteContext);
+    const utenteContext = useContext(UtenteContext);
+    const contoCorrenteContext = useContext(ContoCorrenteContext);
+    const history = useHistory();
 
-    const URI="http://localhost:8080/ExoMusicBancaWEB/rest/ContoCorrenteRest/insertContoCorrente";
+    const URI = "http://localhost:8080/ExoMusicBancaWEB/rest/ContoCorrenteRest/insertContoCorrente";
 
-
-    function attivaConto(){
-
-        fetch(URI, {
-            method:"POST",
-            body:JSON.stringify(utenteContext.utente),
-            headers:{
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-        .then(responseJson=> responseJson.json())
-        .then(response=> {
-            console.log(response);
-            if (null != response && ""!= response){
-                contoCorrenteContext.setContoCorrente();
-            }
-        })
-        .catch(error => 
-            console.log(error))
-
+    function navigate(path) {
+        history.push(path)
     }
 
-    return(
+    function attivaConto() {
+        chiamata.ChiamataPost(URI, utenteContext.utente, contoCorrenteContext.setContoCorrente);
+        navigate("/attesaConto")
+    }
+
+    return (
         <div>
             <p>Non hai attivato il tuo conto.</p>
             <p>Clicca sul bottone per attivare la richiesta di attivazione</p>

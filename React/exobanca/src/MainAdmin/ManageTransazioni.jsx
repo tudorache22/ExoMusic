@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons'
+import { ChiamataGet } from "../Funzioni/ChiamataGet";
 
 const ManageTranaszioni = () => {
 
@@ -24,23 +25,8 @@ const ManageTranaszioni = () => {
     }
 
     function findTransazioni() {
-        fetch(URI, {
-            method: "GET",
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                allTransazioniContext.setAllTransazioni(response);
-                response.map(risposta => {
-                    console.log(risposta);
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            })
+
+        ChiamataGet(URI, allTransazioniContext.setAllTransazioni)
     }
 
     useEffect(() => {
@@ -81,21 +67,7 @@ const ManageTranaszioni = () => {
     function findTransazione(idTransazione) {
         let URIidTransazione = URItransazione + idTransazione;
 
-        fetch(URIidTransazione, {
-            method: "GET",
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        }).then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                if (null !== response && "" !== response) {
-                    movimentoContext.setMovimento(response);
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+        ChiamataGet(URIidTransazione, movimentoContext.setMovimento)
     }
 
     return (

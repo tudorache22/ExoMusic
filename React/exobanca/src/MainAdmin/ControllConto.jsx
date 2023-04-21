@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import { ContoCorrenteContext, UtenteSelezionatoContext } from "../App"
 import { useHistory } from "react-router-dom"
+import { ChiamataPut } from "../Funzioni/ChiamataPut"
 
 
 const ControllConto = () => {
@@ -16,35 +17,32 @@ const ControllConto = () => {
 
     function attivaConto() {
         let requestBody = {
-            idContoCorrente: contoCorrenteContext.contoCorrente.idConto,
+            idContoCorrente: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].idContoCorrente,
             dataScadenza: contoCorrenteContext.contoCorrente.dataScadenza,
             numeroConto: contoCorrenteContext.contoCorrente.numeroConto,
             saldo: contoCorrenteContext.contoCorrente.saldo,
             statoConto: "attivo",
             utente: utenteSelezionatoContext.utenteSelezionato
         }
+        console.log(requestBody)
+        ChiamataPut(URI, requestBody, contoCorrenteContext.setContoCorrente)
 
-        fetch(URI, {
-            method: "PUT",
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-type': 'application/json charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response)
-                if (null !== response) {
-                    navigate("/manageConti")
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+        navigate("/manageConti")
 
     }
 
     function rifiutaConto() {
+        let requestBody = {
+            idContoCorrente: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].idContoCorrente,
+            dataScadenza: contoCorrenteContext.contoCorrente.dataScadenza,
+            numeroConto: contoCorrenteContext.contoCorrente.numeroConto,
+            saldo: contoCorrenteContext.contoCorrente.saldo,
+            statoConto: "attivo",
+            utente: utenteSelezionatoContext.utenteSelezionato
+        }
+        console.log(requestBody)
+        ChiamataPut(URI, requestBody, contoCorrenteContext.setContoCorrente)
+        navigate("/manageConti")
 
     }
 
@@ -77,7 +75,7 @@ const ControllConto = () => {
                 <div className="stilemio">
                     <h2>Conto Corrente</h2>
                     <h4>ID CONTO:</h4>
-                    <p>{contoCorrenteContext.contoCorrente.idConto}</p>
+                    <p>{utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].idContoCorrente}</p>
                     <h4>Data Scadenza:</h4>
                     <p>{contoCorrenteContext.contoCorrente.dataScadenza}</p>
                     <h4>Numero Conto:</h4>

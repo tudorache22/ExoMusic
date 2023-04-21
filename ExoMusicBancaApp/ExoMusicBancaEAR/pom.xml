@@ -23,6 +23,8 @@
 	      <scope>provided</scope>
 	    </dependency>
 	    
+	 
+	    
    	    <dependency>
 	      <groupId>it.exolab.bancaExo</groupId>
 	      <artifactId>ExoMusicBancaEJB</artifactId>

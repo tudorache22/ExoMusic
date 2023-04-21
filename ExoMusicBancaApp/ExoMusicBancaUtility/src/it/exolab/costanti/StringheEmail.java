@@ -32,5 +32,6 @@ public class StringheEmail {
 				+ "Per confermare il pagamento le inviamo il seguente codice OTP: \n" + "    " + otp.getCodice() + "   "
 				+ "Cordiali saluti, staffer Exomusic");
 	}
+	
 
 }

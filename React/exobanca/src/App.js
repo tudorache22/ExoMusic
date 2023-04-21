@@ -145,6 +145,7 @@ function App() {
                           </div>
                           <div className='col-12'>
                             <SideBar />
+                            <NavBar />
                           </div>
                           <div className='col-12'>
                             <Main />

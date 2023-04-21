@@ -109,15 +109,16 @@ public class ContoCorrenteRest extends BaseRest<ContoCorrente> {
 		}
 	}
 
-	@GET
-	@Path("/findContoCorrenteByIdUtente/{idUtente}")
+	@POST
+	@Path("/findUtenteByConto")
 	@Produces({ "application/json" })
-	public Response findByIdUtente(@PathParam("idUtente") Integer idUtente) {
-		logger.info("sei nel ContoCorrenteRest findByIdUtente >>>" + idUtente);
+	@Consumes({ "application/json" })
+	public Response findByIdUtente(ContoCorrente conto) {
+		logger.info("sei nel ContoCorrenteRest findByIdUtente >>>" + conto);
 		try {
-			ContoCorrente contoUtente = new EJBFactory<ContoCorrenteControllerInterface>(
-					ContoCorrenteControllerInterface.class).getEJB().findByIdUtente(idUtente);
-			return Response.status(201).entity(contoUtente).build();
+			Utente utente = new EJBFactory<ContoCorrenteControllerInterface>(
+					ContoCorrenteControllerInterface.class).getEJB().findByConto(conto);
+			return Response.status(201).entity(utente).build();
 
 		} catch (Exception e) {
 			e.printStackTrace();

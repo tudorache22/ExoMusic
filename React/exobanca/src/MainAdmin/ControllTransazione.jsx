@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { ContoCorrenteContext, MovimentoContext, UtenteSelezionatoContext } from "../App";
 import { useHistory } from "react-router-dom";
+import { ChiamataPut } from "../Funzioni/ChiamataPut";
 
 const ControllTransazione = () => {
 
@@ -29,20 +30,8 @@ const ControllTransazione = () => {
             }
         }
 
-        fetch(URItransazione, {
-            method: "PUT",
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        ChiamataPut(URItransazione, requestBody, movimentoContext.setMovimento)
+        navigate("/manageTransazioni");
     }
 
     function rifiutaTransazione() {
@@ -58,21 +47,9 @@ const ControllTransazione = () => {
             }
         }
 
-        fetch(URItransazione, {
-            method: "PUT",
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                navigate("/manageTransazioni");
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        ChiamataPut(URItransazione, requestBody, movimentoContext.setMovimento)
+
+        navigate("/manageTransazioni");
     }
 
     function entrataConto() {
@@ -81,24 +58,12 @@ const ControllTransazione = () => {
             dataScadenza: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].dataScadenza,
             numeroConto: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].numeroConto,
             saldo: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].saldo + movimentoContext.movimento.importo,
-            utente: utenteSelezionatoContext.utenteSelezionato
+            utente: utenteSelezionatoContext.utenteSelezionato,
+            statoConto: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].statoConto
         }
         console.log(requestBody);
 
-        fetch(URIconto, {
-            method: "PUT",
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        ChiamataPut(URIconto, requestBody, contoCorrenteContext.setContoCorrente)
     }
 
     function uscitaConto() {
@@ -107,24 +72,12 @@ const ControllTransazione = () => {
             dataScadenza: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].dataScadenza,
             numeroConto: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].numeroConto,
             saldo: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].saldo - movimentoContext.movimento.importo,
-            utente: utenteSelezionatoContext.utenteSelezionato
+            utente: utenteSelezionatoContext.utenteSelezionato,
+            statoConto: utenteSelezionatoContext.utenteSelezionato.contoCorrentes[0].statoConto
         }
         console.log(requestBody);
 
-        fetch(URIconto, {
-            method: "PUT",
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        ChiamataPut(URIconto, requestBody, contoCorrenteContext.setContoCorrente)
     }
 
     function completaTransazione() {

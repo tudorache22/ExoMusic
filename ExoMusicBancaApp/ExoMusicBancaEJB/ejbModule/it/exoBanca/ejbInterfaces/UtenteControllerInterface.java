@@ -19,5 +19,6 @@ public interface UtenteControllerInterface {
 	void delete(Utente model);
 
 	Utente findByEmailPassword(Utente utente);
+	
 
 }

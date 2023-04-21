@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MovimentoContext, OtpContext, UtenteContext } from "../App";
+import { ChiamataPost } from "../Funzioni/ChiamataPost";
+import { ChiamataPut } from "../Funzioni/ChiamataPut";
+import { ChiamataGet } from "../Funzioni/ChiamataGet";
 
 const ModalTransazione = () => {
 
@@ -23,29 +26,15 @@ const ModalTransazione = () => {
 
     useEffect(() => {
         creaOtp();
-
     }, [movimentoContext.movimento])
 
 
     function creaOtp() {
-        fetch(URI, {
-            method: "POST",
-            body: JSON.stringify(movimentoContext.movimento),
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                if (null !== response && "" !== response) {
-                    otpContext.setOtp(response);
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+        ChiamataPost(URI, movimentoContext.movimento, otpContext.setOtp)
+
     }
+
+
 
     function convalidaTransazione() {
         let requestBody = {
@@ -59,39 +48,11 @@ const ModalTransazione = () => {
                 stato: "IN CORSO"
             }
         }
-        console.log(requestBody);
-        fetch(URIupdate, {
-            method: "PUT",
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                if (null !== response && "" !== response) {
-                    movimentoContext.setMovimento(response);
-                }
-            })
-            .catch(error =>
-                console.log(error));
+        ChiamataPut(URIupdate, requestBody, movimentoContext.setMovimento)
     }
 
     useEffect(() => {
-        fetch(URIutente, {
-            method: "GET",
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                if (null != response && "" != response) {
-                    utenteContext.setUtente(response);
-                }
-            })
+        ChiamataGet(URIutente, utenteContext.setUtente)
     }, [otpContext.otp])
 
     return (

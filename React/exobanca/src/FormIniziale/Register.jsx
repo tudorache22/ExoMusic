@@ -1,80 +1,56 @@
-import React, { Component, useContext, useState } from "react";
+import React, { useContext } from "react";
+import { useForm } from "react-hook-form";
+import ComponenteInput from "./ComponentiForm/ComponenteInput";
 import { useHistory } from "react-router-dom";
-import { AnagraficaContext, ConnessoContext, UtenteContext } from "../App";
-
+import { UtenteContext } from "../App";
+import * as chiamata from "../Funzioni/ChiamataPost";
 
 const Register = () => {
-    const [email, setEmail] = useState("");
-    const [emailIsValid, setEmailIsValid] = useState(false);
-    const [password, setPassword] = useState("");
-    const [passwordIsValid, setPasswordIsValid] = useState(false);
-    const URIutente = "http://localhost:8080/ExoMusicBancaWEB/rest/UtenteRest/insertUtente";
-    const utenteContext = useContext(UtenteContext);
-    const connessoContext = useContext(ConnessoContext);
-    const anagraficaContext = useContext(AnagraficaContext);
-    const regexEmail = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,})$/;
+    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-
-    const history = useHistory();
+    const utenteContext = useContext(UtenteContext);
+    const URI = "http://localhost:8080/ExoMusicBancaWEB/rest/UtenteRest/insertUtente";
+    const history = useHistory()
 
     function navigate(path) {
-        history.push(path);
+        history.push(path)
     }
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
 
-    function saveUtente() {
-        let requestBody = {
-            anagrafica: anagraficaContext.anagrafica,
-            email: email,
-            password: password,
-            ruolo: {
-                idRuolo: 1,
-            }
-        }
-        console.log(requestBody);
-        console.log(JSON.stringify(requestBody))
-        fetch(URIutente, {
-            method: "POST",
-            body: JSON.stringify(requestBody),
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        }).then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                if (null != response) {
-                    utenteContext.setUtente(response);
-                    connessoContext.setConnesso(true);
-                    navigate("/home");
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }
-
-    function controlloEmail(e) {
-        setEmail(e.target.value);
-        setEmailIsValid(regexEmail.test(e.target.value));
-    }
-
-    function controlloPassword(e) {
-        setPassword(e.target.value);
-        setPasswordIsValid(regexPassword.test(e.target.value));
+    const onSubmit = (data) => {
+        chiamata.ChiamataPost(URI, data, utenteContext.setUtente)
+        navigate("/home")
     }
 
     return (
+        <div className="row">
+            <div className="col-4"></div>
+            <div className="col-8">
+                <img src="/logo.png" alt="" style={{ width: 200, height: 200, marginLeft: 200, marginTop: 70 }} />
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <h3 style={{ paddingBottom: "40px" }}>Registrati</h3>
+                    <ComponenteInput register={register} valore={"email"} pattern={regexEmail} sesso={"F"} label={"Email:"} />
+                    {errors.email && <p className="errorMsg">{errors.email.message}</p>}
+                    <ComponenteInput register={register} valore={"password"} pattern={regexPassword} sesso={"F"} label={"Password:"} />
+                    {errors.password && <p className="errorMsg">{errors.password.message}</p>}
 
-        <form>
-            <label for="emailRegister">Email:</label>
-            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} id="emailRegister" />
-            <label for="passwordRegister">Password:</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} id="passwordRegister" />
+                    <div >
+                        <label></label>
+                        <button className="btn btn-outline-primary" type="submit">Conferma</button>
+                    </div>
+                    <div>
+                        <label>Vuoi annullare la registrazione?</label>
+                        <button className="btn btn-outline-primary" onClick={() => navigate("/anagrafica")}>Annulla Registrazione</button>
+                    </div>
+                </form>
 
-            <button type="button" className="btn btn-outline-danger" onClick={() => saveUtente()} >Completa la registrazione</button>
-            <label for="bottoneLogin">Hai già un account?</label>
-            <button type="button" className="btn btn-outline-danger" onClick={() => navigate("/login")}>Annulla Registrazione</button>
-        </form>
+            </div>
+        </div>
     )
 
 

@@ -33,6 +33,13 @@
 	      <type>jar</type>
 	      <scope>compile</scope>
 	    </dependency>
+	     <dependency>
+	      <groupId>it.exolab.bancaExo</groupId>
+	      <artifactId>ExoMusicBancaUtility</artifactId>
+	      <version>0.0.1-SNAPSHOT</version>
+	      <type>jar</type>
+	      <scope>compile</scope>
+	    </dependency>
 	    
 	     <dependency>
 	      <groupId>it.exolab.bancaExo</groupId>

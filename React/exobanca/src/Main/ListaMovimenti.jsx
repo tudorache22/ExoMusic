@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MovimentoContext, UtenteContext } from "../App";
 import ModalMovimento from "./ModalMovimento";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons'
+import Table from 'react-bootstrap/Table';
 
 const ListaMovimenti = () => {
 
@@ -12,39 +15,35 @@ const ListaMovimenti = () => {
 
     return (
         <div>
-            <table>
+            <Table striped bordered hover variant="white">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Importo</th>
-                        <th scope="col">Stato</th>
-                        <th scope="col">Info</th>
+                        <th>Data</th>
+                        <th>Importo</th>
+                        <th>Info</th>
                     </tr>
                 </thead>
-        
-            {utenteContext.utente.transaziones.length > 0 ?
                 <tbody>
-                    {utenteContext.utente.transaziones.map(movimento => {
-                        return(
-                        <tr>
-                            <th>{costanteIndex + 1}</th>
-                            <td>{movimento.importo}</td>
-                            <td>{movimento.stato}</td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMovimento"
-                                onClick={movimentoContext.setMovimento(movimento)}>
-                                More Info
-                            </button>
-                            <ModalMovimento/>
 
-                        </tr>
-                        )
+                    {utenteContext.utente.transaziones.map(transazione => {
+                        if (transazione.statoTransazione.idStato === 3) {
+                            return (
+                                <tr>
+                                    <td>{transazione.data} </td>
+                                    <td>${transazione.importo}</td>
+                                    <td>
+                                        <button className="text-dark btn text-start" style={{ paddingLeft: 40 }} data-bs-toggle="modal" data-bs-target="#modalMovimento" onClick={() => movimentoContext.setMovimento(transazione)}>
+                                            <FontAwesomeIcon icon={faCommentsDollar} size="lg" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            )
+                        }
                     })}
+                    <ModalMovimento />
 
-                </tbody> :
-                <div>
-                    <p>Non ci sono movimenti</p>
-                </div>}
-                </table>
+                </tbody>
+            </Table>
         </div>
     )
 

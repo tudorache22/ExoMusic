@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AllContiContext, ContoCorrenteContext, UtenteSelezionatoContext } from "../App";
 import { useHistory } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentsDollar } from '@fortawesome/free-solid-svg-icons'
+import { ChiamataGet } from "../Funzioni/ChiamataGet";
+import { ChiamataPut } from "../Funzioni/ChiamataPut";
 
 const ManageConti = () => {
     const URI = "http://localhost:8080/ExoMusicBancaWEB/rest/ContoCorrenteRest/findAllConti"
@@ -21,45 +23,24 @@ const ManageConti = () => {
     function manageConto(conto) {
         findUtente(conto[4]);
         findConto(conto[0]);
-        navigate("/controllCont");
+        navigate("/controllConto");
     }
 
     function findUtente(idUtente) {
         let URIidUtente = URIutente + idUtente;
-
-        fetch(URIidUtente, {
-            method: "GET",
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                if (null !== response) {
-                    utenteSelezionatoContext.setUtenteSelezionato(response);
-                }
-            })
+        ChiamataGet(URIidUtente, utenteSelezionatoContext.setUtenteSelezionato)
     }
 
     function findConto(idConto) {
         let URIidConto = URIconto + idConto;
-
-        fetch(URIidConto, {
-            method: "GET",
-            headers: {
-                'Content-type': 'application/json;charset=UTF-8'
-            }
-        })
-            .then(responseJson => responseJson.json())
-            .then(response => {
-                console.log(response);
-                if (null !== response) {
-                    contoCorrenteContext.setContoCorrente(response);
-                }
-            })
-
+        ChiamataGet(URIidConto, contoCorrenteContext.setContoCorrente)
     }
+
+    useEffect(() => {
+        ChiamataGet(URI, allContiContext.setAllConti)
+    }, [contoCorrenteContext.contoCorrente])
+
+
 
     return (
         <div>
@@ -70,7 +51,7 @@ const ManageConti = () => {
                             <th>Id Conto</th>
                             <th>Numero Conto</th>
                             <th>Data Scadenza</th>
-                            <th>Stato Sconto</th>
+                            <th>Stato Conto</th>
                             <th>Controllo</th>
                         </tr>
                     </thead>
@@ -82,7 +63,6 @@ const ManageConti = () => {
                                     <tr>
                                         <td>{conto[0]}</td>
                                         <td>{conto[1]} </td>
-                                        <td>{conto[1]}</td>
                                         <td>{conto[3]}</td>
                                         <td>{conto[5]}</td>
                                         <td>

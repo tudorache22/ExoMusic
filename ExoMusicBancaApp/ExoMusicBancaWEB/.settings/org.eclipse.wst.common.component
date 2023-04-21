@@ -14,13 +14,13 @@
         <dependent-module archiveName="ExoMusicBancaModel-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicBancaModel/ExoMusicBancaModel">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="ExoMusicBancaUtility-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicBancaUtility/ExoMusicBancaUtility">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="ExoMusicBancaEJB-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicBancaEJB/ExoMusicBancaEJB">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="ExoMusicBancaDB-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicBancaDB/ExoMusicBancaDB">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="ExoMusicBancaUtility-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ExoMusicBancaUtility/ExoMusicBancaUtility">
             <dependency-type>uses</dependency-type>
         </dependent-module>
                         

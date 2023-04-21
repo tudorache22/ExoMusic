@@ -6,6 +6,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 import Logo from "./Logo";
+import ButtonSidebar from "./ButtonSidebar";
 
 const Header = () => {
 
@@ -15,17 +16,13 @@ const Header = () => {
         return (
             <header className="row">
                 <div className="col-1">
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <FontAwesomeIcon icon={faBars} size="2xl" />
-            
-              </button>
-     
+                    <ButtonSidebar />
                 </div>
 
-                <div className="col-9">
+                <div className="col-8">
                     <Logo />
                 </div>
-                <div className="col-2">
+                <div className="col-3">
                     <ContainerHeader />
                 </div>
 

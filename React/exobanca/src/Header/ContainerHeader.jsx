@@ -9,34 +9,31 @@ const ContainerHeader = () => {
 
     const connessoContext = useContext(ConnessoContext);
     const utenteContext = useContext(UtenteContext);
-    const contoCorrenteContext=useContext(ContoCorrenteContext);
-    const anagraficaContext=useContext(AnagraficaContext);
+    const contoCorrenteContext = useContext(ContoCorrenteContext);
+    const anagraficaContext = useContext(AnagraficaContext);
 
-    const notificheContext=useContext(NotificheContext);
+    const notificheContext = useContext(NotificheContext);
 
-    
-    
-    function controlloNotifiche(){
-        notificheContext.setNotifiche([]);
-        utenteContext.utente.transaziones.map( notifica =>{
-            if(notifica.statoTransazione.idStato ===6){
+
+
+    function controlloNotifiche() {
+        utenteContext.utente.transaziones.map(notifica => {
+            if (notifica.statoTransazione.idStato === 6) {
                 notificheContext.notifiche.push(notifica);
-            }else{
-                console.log("no");
             }
         })
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         controlloNotifiche();
-    },[utenteContext.utente]);
+    }, 60000);
 
     const history = useHistory();
     function navigate(path) {
         history.push(path)
     }
 
-    function logOut(){
+    function logOut() {
         utenteContext.setUtente({
             idUtente: "",
             password: "",
@@ -44,38 +41,39 @@ const ContainerHeader = () => {
             ruolo: "",
             anagrafica: anagraficaContext.anagrafica,
             transaziones: [],
-            contoCorrentes:[]
-          });
-          contoCorrenteContext.setContoCorrente({
-            idContoCorrente:"",
+            contoCorrentes: []
+        });
+        contoCorrenteContext.setContoCorrente({
+            idContoCorrente: "",
             numeroConto: "",
             dataScadenza: "",
             saldo: ""
-          });
-          connessoContext.setConnesso(false); 
-          navigate("/login");
-          
+        });
+        connessoContext.setConnesso(false);
+        navigate("/login");
+
     }
 
     if (connessoContext.connesso === true) {
         return (
             <div className="row">
-            <div className="col-10">
-                <p>Benvenuto {utenteContext.utente.anagrafica.nome}</p>  
-            </div>
-            <div className="col-2">
-                <button type="button" class="btn btn-primary" onClick={()=>navigate("/notifiche")}>
-                    <FontAwesomeIcon icon={faBell} style={{color: "#ffffff",}} /> 
+                <div className="col-3">
+                    <button type="button" class="btn btn-primary" onClick={() => navigate("/notifiche")}>
+                        <FontAwesomeIcon icon={faBell} style={{ color: "#ffffff", }} />
 
-                    {/* <span class="badge text-bg-secondary">{notificheContext.notifiche.lenght}</span> */}
-                 </button>
-           </div>
-           <div className="col-12" style={{ marginRight: 0,marginRight:"auto"}}>
-                <label>Vuoi fare il LogOut?</label>
-                <button type="text" onClick={() => logOut()} class="btn btn-primary">LogOut</button>
+                    </button>
+                </div>
+                <div className="col-9">
+                    <p>Benvenuto {utenteContext.utente.anagrafica.nome}</p>
+                </div>
+                <div className="col-3"></div>
+
+                <div className="col-9" style={{ marginRight: 0, marginRight: "auto" }}>
+                    <label>Vuoi fare il LogOut?</label>
+                    <button type="text" onClick={() => logOut()} class="btn btn-primary">LogOut</button>
                 </div>
             </div>
-           
+
         )
     }
     else {

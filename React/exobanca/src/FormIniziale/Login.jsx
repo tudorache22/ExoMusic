@@ -1,9 +1,50 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { ConnessoContext, ContoCorrenteContext, MovimentoContext, UtenteContext } from "../App";
 import { useForm } from "react-hook-form";
+import ComponenteInput from "./ComponentiForm/ComponenteInput";
+import * as chiamata from "../Funzioni/ChiamataPost";
+import Swal from "sweetalert2";
+
+
 
 const Login = () => {
+    const URI = "http://localhost:8080/ExoMusicBancaWEB/rest/UtenteRest/faiLogin";
+    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\W]{8,20}$/;
+    const history = useHistory();
+    const utenteContext = useContext(UtenteContext);
+    const connessoContext = useContext(ConnessoContext);
+    // const [toast, setToast] = useState(false);
+    // const toastRef = useRef()
+
+    function navigate(path) {
+        history.push(path)
+    }
+
+    // function convalida() {
+    //     let timerInterval
+    //     Swal.fire({
+    //         title: 'Auto close alert!',
+    //         html: 'I will close in <b></b> milliseconds.',
+    //         timer: 1000,
+    //         timerProgressBar: false,
+    //         didOpen: () => {
+    //             const b = Swal.getHtmlContainer().querySelector('b')
+    //             timerInterval = setInterval(() => {
+    //                 b.textContent = Swal.getTimerLeft()
+    //             }, 100)
+    //         },
+    //         willClose: () => {
+    //             clearInterval(timerInterval)
+    //         }
+    //     }).then((result) => {
+    //         /* Read more about handling dismissals below */
+    //         if (result.dismiss === Swal.DismissReason.timer) {
+    //             console.log('I was closed by the timer')
+    //         }
+    //     })
+    // }
 
     const {
         register,
@@ -12,98 +53,80 @@ const Login = () => {
     } = useForm();
 
 
-    // const [email, setEmail] = useState("");
-    // const [validateEmail, setValidateEmail] = useState(false);
-    // const [password, setPassword] = useState("");
-    // const [validatePassword, setValidatePassword] = useState(false);
-    // const URI = "http://localhost:8080/ExoMusicBancaWEB/rest/UtenteRest/faiLogin";
-    // const utenteContext = useContext(UtenteContext);
-    // const connessoContext = useContext(ConnessoContext);
-    // const contoCorrenteContext = useContext(ContoCorrenteContext);
-    // const movimentoContext = useContext(MovimentoContext);
+    const onSubmit = (data) => {
+        chiamata.ChiamataPost(URI, data, utenteContext.setUtente);
+        connessoContext.setConnesso(true);
+        // convalida();
+    }
 
 
-    // const history = useHistory();
-    // function navigate(path) {
-    //     history.push(path);
-    // }
+    useEffect(() => {
+        if (connessoContext.connesso) {
+            if (utenteContext.utente.ruolo.idRuolo === 1) {
+                navigate("/home")
+            }
+            else {
+                navigate("/manageTransazioni")
+            }
+        }
+    }, [utenteContext.utente])
 
-    // function saveUtente() {
-    //     let requestBody = {
-    //         idUtente: utenteContext.utente.idUtente,
-    //         email: email,
-    //         password: password,
+    // useEffect(() => {
+    //     var myToast = toastRef.current
+    //     var bsToast = bootstrap.Toast.getInstance(myToast)
 
+    //     if (!bsToast) {
+    //         // initialize Toast
+    //         bsToast = new Toast(myToast, { autohide: false })
+    //         // hide after init
+    //         bsToast.hide()
+    //         setToast(false)
     //     }
-    //     console.log(requestBody);
-    //     fetch(URI, {
-    //         method: "POST",
-    //         body: JSON.stringify(requestBody),
-    //         headers: {
-    //             'Content-type': 'application/json;charset=UTF-8'
-    //         }
-    //     }).then(responseJson => responseJson.json())
-    //         .then(response => {
-    //             if (null !== response && response !== "") {
-    //                 connessoContext.setConnesso(true);
-    //                 console.log(response)
-    //                 utenteContext.setUtente(response);
-    //                 contoCorrenteContext.setContoCorrente(response.contoCorrentes[0]);
-    //                 movimentoContext.setMovimento(response.transaziones);
-    //                 if (response.ruolo.idRuolo === 2) {
-    //                     navigate("/manageTransazioni");
-    //                 }
-    //                 if (response.ruolo.idRuolo === 1) {
-    //                     navigate("/home");
-    //                 }
-    //             }
-
-    //         }).catch(error => {
-    //             console.error(error);
-    //         })
-    // }
-
-    // function controllaEmail(e) {
-    //     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    //     setEmail(e.target.value);
-    //     setValidateEmail(emailRegex.test(e.target.value));
-    // }
-
-    // function controlloPassword(e) {
-    //     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\W]{8,20}$/
-    //     setPassword(e.target.value);
-    //     setValidatePassword(passwordRegex.test(e.target.value));
-    // }
+    //     else {
+    //         // toggle
+    //         toast ? bsToast.show() : bsToast.hide()
+    //     }
+    // })
 
 
+    return (
+        <div className="row">
+            <div className="col-4"></div>
+            <div className="col-8">
+                <img src="/logo.png" alt="" style={{ width: 200, height: 200, marginLeft: 200, marginTop: 70 }} />
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <h3 style={{ paddingBottom: "40px" }}>Accedi</h3>
+                    <ComponenteInput register={register} valore={"email"} pattern={regexEmail} label={"Email:"} />
+                    {errors.email && <p className="errorMsg">{errors.email.message}</p>}
+                    <ComponenteInput register={register} valore={"password"} pattern={regexPassword} label={"Password:"} />
+                    {errors.password && <p className="errorMsg">{errors.password.message}</p>}
+                    <div >
+                        <label></label>
+                        <button className="btn btn-outline-primary" type="submit">Login
+                        </button>
+                    </div>
+                    <div>
+                        <label>Non Hai un account?</label>
+                        <button className="btn btn-outline-primary" onClick={() => navigate("/anagrafica")}>Crea un Account</button>
+                    </div>
+
+                    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center w-100">
 
 
-    // return (
-    //     <div className="row">
-    //         <div className="col-5"></div>
-    //         <div className="col-7">
-    //             <img src="/logo.png" alt="" style={{ width: 200, height: 200, marginLeft: 100, marginTop: 70 }} />
-    //         </div>
+                        <div className="toast position-absolute m-4" role="alert">
+                            <div className="toast-body">
+                                Hello, world! This is a toast message.
+                            </div>
+                        </div>
+                    </div>
 
-
-    //         <div className="col-4"></div>
-    //         <div className="col-4">
-    //             <form>
-    //                 <label for="emailLogin">Email: </label>
-    //                 <input type="text" placeholder="Inserisc la tua email" id="emailLogin" value={email} onChange={(e) => controllaEmail(e)} />
-    //                 <label for="passwordLogin">Password:</label>
-    //                 <input type="text" placeholder="Inserisci la password" id="passwordLogin" value={password} onChange={(e) => controlloPassword(e)} />
-    //                 <button type="button" className="btn btn-outline-primary" onClick={() => saveUtente()} disabled={!validateEmail || !validatePassword}>Accedi</button>
-
-    //                 <label for="registrati" style={{ paddingTop: 70 }}>Non hai un account?</label>
-    //                 <button type="button" className="btn btn-outline-primary" onClick={() => navigate("/anagrafica")} id="registrati">Crea un account</button>
-    //             </form >
-    //         </div>
-    //     </div>
-    // )
-
-
+                </form>
+            </div>
+        </div>
+    )
 
 }
 
+
 export default Login;
+

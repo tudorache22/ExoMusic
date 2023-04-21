@@ -152,23 +152,22 @@ public class ContoCorrenteController extends BaseController implements ContoCorr
 	}
 
 	@Override
-	public ContoCorrente findByIdUtente(Integer id) {
+	public Utente findByConto(ContoCorrente conto) {
 		ContoCorrente contoTrovato;
 		EntityManager entityManager = getEntityManager();
 		entityManager= controlloEM(entityManager);
 		EntityTransaction transaction = entityManager.getTransaction();
-		logger.info("sei nel findByIdUtente ContoCorrente >>>" + id);
+		logger.info("sei nel findByIdUtente ContoCorrente >>>" + conto);
 
 		try {
 			transaction.begin();
-			String query2 = "Select * FROM ContoCorrente WHERE id_utente = 2";
-//			Query query = entityManager.createQuery(query2.replace(":pippo:", id+""),ContoCorrente.class);
-			Query query = entityManager.createQuery(query2,ContoCorrente.class);
-			
-			contoTrovato = (ContoCorrente) query.getSingleResult();
-			logger.info(contoTrovato);
+			String query2 = "Select u FROM Utente AS u JOIN ContoCorrente AS c ON u.idUtente = c.utente.idUtente WHERE c.idContoCorrente = :idConto";
+			Query query = entityManager.createQuery(query2,Utente.class);
+			query.setParameter("idConto", conto.getIdContoCorrente());
+			Utente utenteTrovato = (Utente) query.getSingleResult();
+			logger.info(utenteTrovato);
 			transaction.commit();
-			return contoTrovato;
+			return utenteTrovato;
 		} catch (Exception e) {
 			e.printStackTrace();
 			transaction.rollback();

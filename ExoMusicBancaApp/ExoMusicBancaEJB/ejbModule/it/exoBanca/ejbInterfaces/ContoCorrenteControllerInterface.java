@@ -20,7 +20,7 @@ public interface ContoCorrenteControllerInterface {
 
 	void delete(ContoCorrente model);
 
-	ContoCorrente findByIdUtente(Integer id);
+	Utente findByConto(ContoCorrente conto);
 	
 	ContoCorrente findByNumeroConto(String numeroConto);
 

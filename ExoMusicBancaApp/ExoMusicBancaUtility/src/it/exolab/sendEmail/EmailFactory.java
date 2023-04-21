@@ -15,6 +15,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import it.exoBanca.models.Email;
 import it.exoBanca.models.Otp;
 import it.exoBanca.models.Utente;
 import it.exolab.costanti.StringheEmail;
@@ -94,6 +95,27 @@ public class EmailFactory {
 		} catch (MessagingException | IOException e) {
 			System.out.println("email non inviata");
 			e.printStackTrace();
+		}
+	}
+	
+	public void settaggioEmail(Email email) throws AddressException, MessagingException {
+		message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(StringheEmail.MITTENTE));
+		message.addRecipient(Message.RecipientType.TO, new InternetAddress(StringheEmail.DESTINATARIO));
+		message.setSubject(email.getSubject());
+		message.setText(email.getContenuto());
+	}
+	
+	public boolean invioEmail(Email email) {
+		try {
+			settaggioEmail(email);
+			Transport.send(message);
+			System.out.println("email inviata");
+			return true;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

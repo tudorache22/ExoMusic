@@ -5,6 +5,8 @@ import javax.naming.InitialContext;
 public class EJBFactory<T> {
 
 	private final static String PREFIX = "java:global/ExoMusicBancaEAR-0.0.1-SNAPSHOT/ExoMusicBancaWEB/";
+	
+	
 
 	private Class<T> interfaceClass;
 

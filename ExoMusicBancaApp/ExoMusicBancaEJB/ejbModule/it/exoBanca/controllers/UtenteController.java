@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import it.exoBanca.ejbInterfaces.UtenteControllerInterface;
 import it.exoBanca.models.Utente;
+import it.exolab.sendEmail.EmailFactory;
 import it.exolab.validazioni.UtenteValidazione;
 
 @Stateless(name = "UtenteControllerInterface")
@@ -187,4 +188,6 @@ public class UtenteController extends BaseController implements UtenteController
 			return entityManager;
 		}
 	}
+
+
 }

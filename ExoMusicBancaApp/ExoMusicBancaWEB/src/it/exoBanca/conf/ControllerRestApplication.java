@@ -10,6 +10,7 @@ import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 
 import it.exoBanca.rest.AnagraficaRest;
 import it.exoBanca.rest.ContoCorrenteRest;
+import it.exoBanca.rest.EmailRest;
 import it.exoBanca.rest.OtpRest;
 import it.exoBanca.rest.TransazioneRest;
 import it.exoBanca.rest.UtenteRest;
@@ -38,6 +39,7 @@ public class ControllerRestApplication extends Application {
 		set.add(ContoCorrenteRest.class);
 		set.add(OtpRest.class);
 		set.add(TransazioneRest.class);
+		set.add(EmailRest.class);
 		return set;
 	}
 

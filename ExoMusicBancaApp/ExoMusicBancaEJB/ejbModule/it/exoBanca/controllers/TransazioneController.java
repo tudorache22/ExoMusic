@@ -14,6 +14,8 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
+import com.lowagie.text.Document;
+
 import it.exoBanca.ejbInterfaces.TransazioneControllerInterface;
 import it.exoBanca.models.ContoCorrente;
 import it.exoBanca.models.Transazione;
@@ -201,7 +203,6 @@ public class TransazioneController extends BaseController implements Transazione
 		}
 		return null;
 	}
-	
 	
 
 }

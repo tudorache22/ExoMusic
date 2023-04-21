@@ -1,8 +1,7 @@
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
-import Anagrafica from "../FormIniziale/Anagrafica";
+
 import Login from "../FormIniziale/Login";
-import Register from "../FormIniziale/Register";
 import Assistenza from "./Assistenza";
 import Conto from "./Conto";
 import Home from "./Home";
@@ -17,7 +16,11 @@ import ManageTranaszioni from "../MainAdmin/ManageTransazioni";
 import ControllTransazione from "../MainAdmin/ControllTransazione";
 import ManageConti from "../MainAdmin/ManageConti";
 import ControllConto from "../MainAdmin/ControllConto";
-import Login2 from "./Login2";
+import Anagrafica from "../FormIniziale/Anagrafica";
+import Register from "../FormIniziale/Register";
+import AttivaConto from "./AttivaConto";
+import AttesaConto from "./AttesaConto";
+
 
 
 const Main = () => {
@@ -27,13 +30,13 @@ const Main = () => {
         <div>
             <Switch>
                 <Route exact path={"/"}>
-                    <Login2 />
+                    <Login />
                 </Route>
                 <Route exact path={"/register"}>
                     <Register />
                 </Route>
                 <Route exact path={"/login"}>
-                    <Login2 />
+                    <Login />
                 </Route>
                 <Route exact path={"/home"}>
                     <Home />
@@ -67,6 +70,12 @@ const Main = () => {
                 </Route>
                 <Route exact path={"/controllConto"}>
                     <ControllConto />
+                </Route>
+                <Route exact path={"/attivaConto"}>
+                    <AttivaConto />
+                </Route>
+                <Route exact path={"/attesaConto"}>
+                    <AttesaConto />
                 </Route>
             </Switch>
         </div>
